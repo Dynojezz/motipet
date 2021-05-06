@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_notepad"
+        android:layout_width="344dp"
+        android:layout_height="675dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/notepad" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="233dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/family_digory_doodles"
+        android:text="journal"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/darkgrey"
+        android:textSize="33sp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.621"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/mousedrawn"
+        android:gravity="center"
+        android:text="Don't let the seeds stop you from enjoying the watermelon :)"
+        android:textAlignment="center"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintHorizontal_bias="0.688"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toBottomOf="@+id/ib_tipps"
+        app:layout_constraintVertical_bias="0.353"
+        app:layout_constraintWidth_percent=".65" />
+
+    <ImageButton
+        android:id="@+id/ib_motilog"
+        android:layout_width="120dp"
+        android:layout_height="110dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.646"
+        app:srcCompat="@drawable/moti_log" />
+
+    <ImageButton
+        android:id="@+id/ib_trophys"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.823"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.42"
+        app:srcCompat="@drawable/trophys" />
+
+    <ImageButton
+        android:id="@+id/ib_evaluation"
+        android:layout_width="107dp"
+        android:layout_height="107dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.308"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.44"
+        app:srcCompat="@drawable/evaluation" />
+
+    <ImageButton
+        android:id="@+id/ib_settings"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.281"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.249"
+        app:srcCompat="@drawable/settings" />
+
+    <ImageButton
+        android:id="@+id/ib_manual"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.757"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.231"
+        app:srcCompat="@drawable/manual" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="160dp"
+        android:layout_height="140dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:srcCompat="@drawable/line_dark" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="32dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:srcCompat="@drawable/x" />
+
+    <ImageButton
+        android:id="@+id/ib_tipps"
+        android:layout_width="105dp"
+        android:layout_height="128dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/iv_notepad"
+        app:layout_constraintVertical_bias="0.68"
+        app:srcCompat="@drawable/tipps" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

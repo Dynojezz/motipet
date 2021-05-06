@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moti Pet</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="no_sensor">Kein Sensor gefunden</string>
+</resources>
