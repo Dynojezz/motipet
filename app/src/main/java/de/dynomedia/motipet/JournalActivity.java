@@ -52,7 +52,14 @@ public class JournalActivity extends AppCompatActivity {
         manual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setContentView(R.layout.manual);
+                x = findViewById(R.id.ib_x);
+                x.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         });
 
@@ -60,7 +67,14 @@ public class JournalActivity extends AppCompatActivity {
         evaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setContentView(R.layout.evaluation);
+                x = findViewById(R.id.ib_x);
+                x.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         });
 
@@ -68,7 +82,6 @@ public class JournalActivity extends AppCompatActivity {
         trophys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 
@@ -76,7 +89,14 @@ public class JournalActivity extends AppCompatActivity {
         tipps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setContentView(R.layout.tipps);
+                x = findViewById(R.id.ib_x);
+                x.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         });
 
@@ -84,7 +104,14 @@ public class JournalActivity extends AppCompatActivity {
         motilog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setContentView(R.layout.motilog);
+                x = findViewById(R.id.ib_x);
+                x.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         });
 
