@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -28,68 +30,63 @@ import java.util.Locale;
 public class StepcounterActivity extends AppCompatActivity
         implements SensorEventListener {
 
-    private static final String PREFS =
-            StepcounterActivity.class.getName();
-
-    private static final String PREFS_KEY = "last";
-
     private ProgressBar pb;
     private TextView steps;
     private Button reset;
     private Switch onOff;
-
     private ImageButton journal;
     private ImageView sync;
-
-    private SensorManager m;
+    private SensorManager sm;
     private Sensor s;
-
-    private int last;
-
+    private int lastSteps;
     final RxPermissions rxPermissions = new RxPermissions(this);
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        rxPermissions
-                .request(Manifest.permission.ACTIVITY_RECOGNITION)
-                .subscribe(granted -> {
+        // requests for access to stepsensor
+        rxPermissions.request(Manifest.permission.ACTIVITY_RECOGNITION).subscribe(granted -> {
                     if (granted) {
-
                     } else {
                         Toast.makeText(this, "Schritte werden nicht getrackt. Kann über die Eintstellungen geändert werden.", Toast.LENGTH_LONG).show();
                     }
                 });
+        // initializes SensorManager
+        sm = getSystemService(SensorManager.class);
+        if (sm == null) {
+            finish();
+        }
+        // initializes Sensor with type step counter
+        s = sm.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
+        // initializes ProgressBar, Step-TextView, Reset-Button and onOff-Switch
         pb = findViewById(R.id.pb);
         steps = findViewById(R.id.tv_steps);
         reset = findViewById(R.id.reset);
         reset.setOnClickListener((event) -> {
-            updateSharedPrefs(this, last);
+            updateSharedPrefs(this, lastSteps);
             updateUI();
         });
-        m = getSystemService(SensorManager.class);
-        if (m == null) {
-            finish();
-        }
-        s = m.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         onOff = findViewById(R.id.on_off);
         onOff.setOnCheckedChangeListener((buttonView, isChecked)
                 -> updateUI());
         onOff.setChecked(s != null);
         updateUI();
 
+        // initializes Journal-Button
         journal = findViewById(R.id.ib_journal);
         journal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StepcounterActivity.this,Journal.class));
+                startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));
             }
         });
 
+        // initializes Journal-Button
         sync = findViewById(R.id.iv_sync);
         sync.setOnClickListener((event) -> {
             updateUI();
@@ -102,17 +99,25 @@ public class StepcounterActivity extends AppCompatActivity
         //updateUI();
     }
 
+    /**
+     * Updates SharedPrefs with new Steps and puts value in textview.
+     * @param sensorEvent
+     */
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        //stores values (steps) from sensor
         float[] values = sensorEvent.values;
+        // casts values to int
         int _steps = (int) values[0];
-        last = _steps;
-        SharedPreferences prefs = getSharedPreferences(
-                StepcounterActivity.PREFS,
-                Context.MODE_PRIVATE);
-        _steps -= prefs.getInt(PREFS_KEY, 0);
-        this.steps.setText(String.format(Locale.US,
-                "%d", _steps));
+        // ... and puts it into local var
+        lastSteps = _steps;
+        // calls SharedPrefs "savedSteps"
+        SharedPreferences myPrefs = getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
+        // subtracts previous steps from current steps
+        _steps = _steps - myPrefs.getInt("lastValue", 0);
+        // puts steps into TextView
+        this.steps.setText(String.format(Locale.US, "%d", _steps));
+        // makes ProgressBar invisible and TextViev + Button visible
         if (pb.getVisibility() == View.VISIBLE) {
             pb.setVisibility(View.GONE);
             this.steps.setVisibility(View.VISIBLE);
@@ -124,15 +129,19 @@ public class StepcounterActivity extends AppCompatActivity
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
-    public static void updateSharedPrefs(Context context,
-                                         int last) {
-        SharedPreferences prefs =
-                context.getSharedPreferences(
-                        StepcounterActivity.PREFS,
-                        Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.putInt(StepcounterActivity.PREFS_KEY, last);
-        edit.apply();
+    /**
+     *
+     * @param context
+     * @param lastSteps
+     */
+    public static void updateSharedPrefs(Context context, int lastSteps) {
+        // calls SharedPrefs "savedSteps"
+        SharedPreferences myPrefs = context.getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
+        // initialized editor for SharedPrefs
+        SharedPreferences.Editor myEditor = myPrefs.edit();
+        //
+        myEditor.putInt("lastValue", lastSteps);
+        myEditor.apply();
     }
 
     private void updateUI() {
@@ -141,11 +150,11 @@ public class StepcounterActivity extends AppCompatActivity
         if (s != null) {
             steps.setVisibility(View.VISIBLE);
             if (onOff.isChecked()) {
-                m.registerListener(this, s,
+                sm.registerListener(this, s,
                         SensorManager.SENSOR_DELAY_UI);
                 pb.setVisibility(View.VISIBLE);
             } else {
-                m.unregisterListener(this);
+                sm.unregisterListener(this);
                 pb.setVisibility(View.GONE);
             }
         } else {

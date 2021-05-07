@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "de.dynomedia.motipet"
-        minSdkVersion 27
+        minSdkVersion 16
         targetSdkVersion 27
     }
 

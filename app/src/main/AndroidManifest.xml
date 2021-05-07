@@ -27,7 +27,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Journal"
+        <activity android:name=".JournalActivity"
             android:theme="@style/Theme.MotiPet.Journal">
         </activity>
 

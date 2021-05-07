@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/notepad" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_headline"
         android:layout_width="233dp"
         android:layout_height="99dp"
         android:layout_marginTop="48dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv_notepad" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_quote"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/mousedrawn"
@@ -132,11 +132,11 @@
         android:layout_height="140dp"
         app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
         app:layout_constraintStart_toStartOf="@+id/iv_notepad"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/tv_headline"
         app:srcCompat="@drawable/line_dark" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ib_x"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="45dp"
