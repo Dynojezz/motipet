@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="trophys" />
-                            <entry key="sourceFile" value="D:\OneDrive\Studium\bachelorarbeit\design\icons\trophys.svg" />
+                            <entry key="outputName" value="ic_steps_blue" />
+                            <entry key="sourceFile" value="D:\OneDrive\Studium\bachelorarbeit\design\icons\steps-blue.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -115,7 +115,7 @@
         android:layout_marginRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_day"
-        app:srcCompat="@drawable/ic_steps" />
+        app:srcCompat="@drawable/steps" />
 
     <ImageView
         android:id="@+id/iv_distance"
@@ -188,25 +188,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/loadingbar" />
 
-    <ProgressBar
-        android:id="@+id/pb"
-        android:layout_width="79dp"
-        android:layout_height="81dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:backgroundTint="#45FFFFFF"
-        android:foregroundTint="#D50C0C"
-        android:indeterminate="true"
-        android:indeterminateTint="#70FFFFFF"
-        android:progressBackgroundTint="#31BAB6B6"
-        android:progressTint="#2C988080"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.99"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
-
     <TextView
         android:id="@+id/steps"
         android:layout_width="wrap_content"
@@ -219,35 +200,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_background"
         app:layout_constraintTop_toTopOf="@+id/iv_background" />
-
-    <Button
-        android:id="@+id/reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/steps"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/darkgrey"
-        android:text="@string/reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/iv_background"
-        app:layout_constraintHorizontal_bias="0.429"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_background"
-        app:layout_constraintVertical_bias="0.036" />
-
-    <Switch
-        android:id="@+id/on_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:padding="16dp"
-        android:showText="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/iv_background"
-        app:layout_constraintHorizontal_bias="0.99"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

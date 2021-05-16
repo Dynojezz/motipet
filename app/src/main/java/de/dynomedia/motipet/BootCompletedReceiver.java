@@ -6,6 +6,11 @@ import android.content.Intent;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
 
+    /**
+     * Sets SharedPrefs to 0 (equal to step counter value after reboot)
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {

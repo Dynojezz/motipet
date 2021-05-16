@@ -31,6 +31,14 @@
             android:theme="@style/Theme.MotiPet.Journal">
         </activity>
 
+        <activity android:name=".EvaluationActivity"
+            android:theme="@style/Theme.MotiPet.NewPage">
+        </activity>
+
+        <activity android:name=".MyOVActivity"
+            android:theme="@style/Theme.MotiPet.NewPage">
+        </activity>
+
     </application>
 
 </manifest>

@@ -67,17 +67,9 @@ public class JournalActivity extends AppCompatActivity {
         evaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.evaluation);
-                x = findViewById(R.id.ib_x);
-                x.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+                startActivity(new Intent(JournalActivity.this, EvaluationActivity.class));
             }
         });
-
         trophys = findViewById(R.id.ib_trophys);
         trophys.setOnClickListener(new View.OnClickListener() {
             @Override
