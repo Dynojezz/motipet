@@ -5,10 +5,6 @@
         android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/patrick_hand"
-        tools:ignore="ResourceCycle" />
-    <font
-        android:fontStyle="italic"
-        android:fontWeight="400"
-        android:font="@font/patrick_hand_sc"
-        tools:ignore="ResourceCycle" />
+        />
+
 </font-family>

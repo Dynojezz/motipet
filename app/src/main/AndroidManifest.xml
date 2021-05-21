@@ -47,6 +47,10 @@
             android:theme="@style/Theme.MotiPet.NewPage">
         </activity>
 
+        <activity android:name=".OnboardingActivity"
+            >
+        </activity>
+
     </application>
 
 </manifest>

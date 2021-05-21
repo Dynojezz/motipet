@@ -98,7 +98,7 @@
         android:id="@+id/tv_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         android:fontFamily="@font/family_body"
         android:fontStyle="normal"
         android:text="983"
@@ -192,18 +192,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/sync" />
-
-    <TextView
-        android:id="@+id/steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:textSize="36pt"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/iv_background"
-        app:layout_constraintTop_toTopOf="@+id/iv_background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

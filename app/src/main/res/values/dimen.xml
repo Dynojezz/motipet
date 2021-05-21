@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="medium">65px</dimen>
-    <dimen name="large">75px</dimen>
-    <dimen name="xlarge">90px</dimen>
-    <dimen name="xxlarge">100px</dimen>
-    <dimen name="bt_large_h">170px</dimen>
-    <dimen name="bt_large_w">680px</dimen>
+    <dimen name="medium">20dp</dimen>
+    <dimen name="large">25dp</dimen>
+    <dimen name="xlarge">32dp</dimen>
+    <dimen name="xxlarge">38dp</dimen>
+    <dimen name="bt_large_h">62dp</dimen>
+    <dimen name="bt_large_w">260dp</dimen>
 </resources>

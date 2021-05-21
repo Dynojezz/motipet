@@ -33,6 +33,19 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get the shared preferences
+        SharedPreferences preferences =  getSharedPreferences("my_preferences", MODE_PRIVATE);
+        // Check if onboarding_complete is false
+        if(!preferences.getBoolean("onboarding_complete",false)) {
+            // Start the onboarding Activity
+            Intent onboarding = new Intent(this, OnboardingActivity.class);
+            startActivity(onboarding);
+            // Close the main Activity
+            finish();
+            return;
+        }
+
         setContentView(R.layout.main);
 
         // initializes ProgressBar, Step-TextView, Reset-Button and onOff-Switch
