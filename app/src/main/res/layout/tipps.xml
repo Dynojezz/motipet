@@ -21,7 +21,7 @@
         android:layout_width="233dp"
         android:layout_height="99dp"
         android:layout_marginTop="64dp"
-        android:fontFamily="@font/family_digory_doodles"
+        android:fontFamily="@font/family_headline"
         android:text="tipps"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"

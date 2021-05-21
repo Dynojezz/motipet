@@ -31,7 +31,7 @@
         android:id="@+id/tv_headline"
         android:layout_width="233dp"
         android:layout_height="99dp"
-        android:fontFamily="@font/family_digory_doodles"
+        android:fontFamily="@font/family_headline"
         android:text="meine uebersicht"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -56,7 +56,7 @@
         app:srcCompat="@drawable/x" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_info"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="15dp"

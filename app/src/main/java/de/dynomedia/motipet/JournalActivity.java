@@ -2,6 +2,7 @@ package de.dynomedia.motipet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
@@ -12,8 +13,15 @@ public class JournalActivity extends AppCompatActivity {
 
     ImageButton x, settings, manual, evaluation, trophys, tipps, motilog;
 
+    public static String aniMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (aniMode == "noAni") {
+            setTheme(R.style.Theme_MotiPet_NewPage);
+        } else {
+            setTheme(R.style.Theme_MotiPet_Journal);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal);
 
@@ -29,6 +37,7 @@ public class JournalActivity extends AppCompatActivity {
         x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                aniMode = "ani";
                 finish();
             }
         });
@@ -67,7 +76,15 @@ public class JournalActivity extends AppCompatActivity {
         evaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setTheme(R.style.Theme_MotiPet_NewPage);
                 startActivity(new Intent(JournalActivity.this, EvaluationActivity.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 70);
             }
         });
         trophys = findViewById(R.id.ib_trophys);
@@ -107,5 +124,9 @@ public class JournalActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static void setAniMode (String mode) {
+        aniMode = mode;
     }
 }

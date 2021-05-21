@@ -57,11 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:fontFamily="@font/family_mousedrawn"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="normal"
         android:text="TAG 29"
         android:textColor="@color/darkgrey"
-        android:textSize="24sp"
+        android:textSize="@dimen/xxlarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TAG 29" />
@@ -70,24 +70,25 @@
         android:id="@+id/tv_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:fontFamily="@font/mousedrawn"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="65dp"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="normal"
         android:text="0"
         android:textColor="@color/darkgrey"
-        android:textSize="18sp"
+        android:textSize="@dimen/large"
         app:layout_constraintEnd_toEndOf="@+id/iv_moti"
-        app:layout_constraintTop_toTopOf="@+id/iv_background" />
+        app:layout_constraintTop_toTopOf="@+id/iv_steps" />
 
     <TextView
         android:id="@+id/tv_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/mousedrawn"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="normal"
         android:text="2,3"
         android:textColor="@color/darkgrey"
-        android:textSize="18sp"
+        android:textSize="@dimen/large"
         app:layout_constraintBottom_toTopOf="@+id/tv_kcal"
         app:layout_constraintEnd_toEndOf="@+id/tv_steps"
         app:layout_constraintTop_toBottomOf="@+id/tv_steps"
@@ -97,11 +98,12 @@
         android:id="@+id/tv_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:fontFamily="@font/mousedrawn"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="normal"
         android:text="983"
         android:textColor="@color/darkgrey"
-        android:textSize="18sp"
+        android:textSize="@dimen/large"
         app:layout_constraintBottom_toBottomOf="@+id/iv_flame"
         app:layout_constraintEnd_toEndOf="@+id/tv_distance"
         tools:text="983" />
@@ -140,14 +142,27 @@
         app:layout_constraintTop_toTopOf="@+id/iv_background"
         app:srcCompat="@drawable/flame" />
 
+    <ImageView
+        android:id="@+id/iv_loadingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/loadingbar" />
+
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
-        android:layout_height="38dp"
-        android:fontFamily="@font/mousedrawn"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="normal"
         android:text="LUMPI"
         android:textColor="@color/darkgrey"
-        android:textSize="24sp"
+        android:textSize="@dimen/xlarge"
         app:layout_constraintBottom_toTopOf="@+id/tv_lv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -158,13 +173,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="55dp"
-        android:fontFamily="@font/mousedrawn"
+        android:fontFamily="@font/family_body"
+        android:fontStyle="italic"
         android:text="Lv 200"
         android:textColor="@color/darkgrey"
-        android:textSize="24sp"
+        android:textSize="@dimen/large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_loadingbar" />
 
     <ImageView
         android:id="@+id/iv_sync"
@@ -175,18 +192,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/sync" />
-
-    <ImageView
-        android:id="@+id/iv_loadingbar"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/loadingbar" />
 
     <TextView
         android:id="@+id/steps"
