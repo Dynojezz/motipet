@@ -5,13 +5,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
+    private ImageView moti;
     private TextView steps;
     private ImageButton journal;
     private SensorManager sm;
@@ -35,18 +39,31 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
 
         // Get the shared preferences
-        SharedPreferences preferences =  getSharedPreferences("my_preferences", MODE_PRIVATE);
+        SharedPreferences motiPrefs =  getSharedPreferences("motiPrefs", MODE_PRIVATE);
         // Check if onboarding_complete is false
-        if(!preferences.getBoolean("onboarding_complete",false)) {
+        if(!motiPrefs.getBoolean("onboarding_complete",false)) {
             // Start the onboarding Activity
-            Intent onboarding = new Intent(this, OnboardingActivity.class);
+            Intent onboarding = new Intent(this, OnboardingFragment1.class);
             startActivity(onboarding);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             // Close the main Activity
             finish();
             return;
         }
+        // Set onboarding_complete to true; REMOVE WHEN READY CODED!!!!!
+        motiPrefs.edit().putBoolean("onboarding_complete",false).apply();
 
         setContentView(R.layout.main);
+
+        // Set Moti-Image
+        String moti_indicator = motiPrefs.getString("moti", "egg1");
+        System.out.println(moti_indicator + " wird angezeigt.");
+        moti = findViewById(R.id.iv_moti);
+        try {
+            moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
+        } catch (Exception e) {
+            System.out.println("Moti image not found. Change filename.");
+        }
 
         // initializes ProgressBar, Step-TextView, Reset-Button and onOff-Switch
         steps = findViewById(R.id.tv_steps);
@@ -63,6 +80,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // setup of the stepcounter
         checkIn();
     }
+
 
     /**
      * Initializes the step counter
@@ -105,9 +123,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // ... and puts it into local var
         trackedSteps = _steps;
         // calls SharedPrefs "savedSteps"
-        SharedPreferences myPrefs = getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
+        SharedPreferences stepPrefs = getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
         // subtracts stored steps from tacked steps
-        _steps = _steps - myPrefs.getInt("lastValue", 0);
+        _steps = _steps - stepPrefs.getInt("lastValue", 0);
         System.out.println("-------------------- AFTER: " + _steps);
         // puts steps into TextView
         this.steps.setText(String.format(Locale.US, "%d", _steps));

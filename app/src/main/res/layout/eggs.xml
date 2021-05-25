@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bg_choice" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="@dimen/paper_w"
+        android:layout_height="180dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/paper_small" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/family_body"
+        android:paddingLeft="30dp"
+        android:paddingRight="10dp"
+        android:text="Das hier sind Moti-Eier.  Aus jedem Ei schlüpft ein individuelles Moti aus. Welches möchtest du ausbrüten?"
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/large"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <ImageView
+        android:id="@+id/iv_lili2"
+        android:layout_width="180dp"
+        android:layout_height="700dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background"
+        app:layout_constraintTop_toTopOf="@+id/iv_background"
+        app:srcCompat="@drawable/lily_2" />
+
+    <ImageView
+        android:id="@+id/iv_lili1"
+        android:layout_width="200dp"
+        android:layout_height="905dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="210dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/lily_1" />
+
+    <ImageView
+        android:id="@+id/iv_lili5"
+        android:layout_width="180dp"
+        android:layout_height="880dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="130dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_background"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/lily_5" />
+
+    <ImageView
+        android:id="@+id/iv_lili4"
+        android:layout_width="185dp"
+        android:layout_height="675dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="130dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/lily_4" />
+
+    <ImageView
+        android:id="@+id/iv_lili3"
+        android:layout_width="200dp"
+        android:layout_height="740dp"
+        android:layout_marginTop="330dp"
+        android:layout_marginEnd="220dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/lily_3" />
+
+    <ImageView
+        android:id="@+id/iv_lili6"
+        android:layout_width="200dp"
+        android:layout_height="905dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="500dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_background"
+        app:layout_constraintTop_toTopOf="@+id/iv_background"
+        app:srcCompat="@drawable/lily_6" />
+
+    <ImageView
+        android:id="@+id/iv_egg1"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        android:cropToPadding="false"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili1"
+        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili1"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili1"
+        app:srcCompat="@drawable/egg1" />
+
+    <ImageView
+        android:id="@+id/iv_egg2"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili2"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili2"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili2"
+        app:srcCompat="@drawable/egg2" />
+
+    <ImageView
+        android:id="@+id/iv_egg3"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili3"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili3"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili3"
+        app:srcCompat="@drawable/egg3"
+        tools:layout_editor_absoluteY="709dp" />
+
+    <ImageView
+        android:id="@+id/iv_egg4"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili4"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili4"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili4"
+        app:srcCompat="@drawable/egg4" />
+
+    <ImageView
+        android:id="@+id/iv_egg5"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili5"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili5"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili5"
+        app:srcCompat="@drawable/egg5" />
+
+    <ImageView
+        android:id="@+id/iv_egg6"
+        android:layout_width="@dimen/egg_w"
+        android:layout_height="@dimen/egg_h"
+        app:layout_constraintEnd_toEndOf="@+id/iv_lili6"
+        app:layout_constraintStart_toStartOf="@+id/iv_lili6"
+        app:layout_constraintTop_toTopOf="@+id/iv_lili6"
+        app:srcCompat="@drawable/egg6"
+        tools:layout_editor_absoluteX="286dp"
+        tools:layout_editor_absoluteY="709dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

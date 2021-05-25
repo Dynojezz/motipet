@@ -91,7 +91,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ib_arrow_r"
         app:layout_constraintStart_toEndOf="@+id/ib_arrow_l"
         app:layout_constraintTop_toTopOf="@+id/ib_arrow_l"
-        app:srcCompat="@drawable/dots2" />
+        app:srcCompat="@drawable/dots1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

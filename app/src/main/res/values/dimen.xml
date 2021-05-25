@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="medium">20dp</dimen>
-    <dimen name="large">25dp</dimen>
-    <dimen name="xlarge">32dp</dimen>
-    <dimen name="xxlarge">38dp</dimen>
-    <dimen name="bt_large_h">62dp</dimen>
+    <dimen name="medium">20sp</dimen>
+    <dimen name="large">24sp</dimen>
+    <dimen name="xlarge">32sp</dimen>
+    <dimen name="xxlarge">38sp</dimen>
+    <dimen name="paper_w">320dp</dimen>
+    <dimen name="paper_h">320dp</dimen>
+    <dimen name="arrow_small_w">32dp</dimen>
+    <dimen name="dots_w">55dp</dimen>
+    <dimen name="bt_ok_w">62dp</dimen>
+    <dimen name="padding_text_hor">30dp</dimen>
+    <dimen name="padding_text_ver">25dp</dimen>
     <dimen name="bt_large_w">260dp</dimen>
+    <dimen name="bt_large_h">62dp</dimen>
+    <dimen name="egg_w">100dp</dimen>
+    <dimen name="egg_h">130dp</dimen>
 </resources>

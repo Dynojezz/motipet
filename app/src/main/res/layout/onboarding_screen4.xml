@@ -16,19 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/slide3" />
+        app:srcCompat="@drawable/slide4" />
 
     <ImageView
         android:id="@+id/ic_pic"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="10dp"
         android:paddingTop="30dp"
         android:paddingBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/iv_background"
-        app:srcCompat="@drawable/pic2" />
+        app:srcCompat="@drawable/pic3" />
 
     <ImageView
         android:id="@+id/iv_paper"
@@ -49,7 +50,7 @@
         android:fontFamily="@font/family_body"
         android:paddingHorizontal="@dimen/padding_text_hor"
         android:paddingVertical="@dimen/padding_text_ver"
-        android:text="So tust du was gutes für deinen Körper, produzierst Glückshormone und kommst vielleicht sogar häufiger an die frische Luft!"
+        android:text="Dein Moti benötigt die Energie aus deinen gelaufenen Schritten, um groß und stark zu werden. Je mehr du läufst, desto schneller entwickelt sich dein Moti zum nächsten Stadium."
         android:textColor="@color/darkgrey"
         android:textSize="@dimen/large"
         app:layout_constraintEnd_toEndOf="@+id/iv_paper"
@@ -91,7 +92,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ib_arrow_r"
         app:layout_constraintStart_toEndOf="@+id/ib_arrow_l"
         app:layout_constraintTop_toTopOf="@+id/ib_arrow_l"
-        app:srcCompat="@drawable/dots2" />
+        app:srcCompat="@drawable/dots3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

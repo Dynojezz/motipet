@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
-        android:text="Hallo bei Moti Pet"
-        android:textSize="@dimen/xxlarge"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/slide1" />
+
+    <ImageView
+        android:id="@+id/iv_paper_skew"
+        android:layout_width="350dp"
+        android:layout_height="320dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/iv_background"
+        app:layout_constraintTop_toTopOf="@+id/iv_background"
+        app:srcCompat="@drawable/paper_skew" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Hier erfährst du, was das alles auf sich hat."
-        android:textSize="@dimen/medium"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/family_body"
+        android:paddingLeft="65dp"
+        android:paddingRight="50dp"
+        android:rotation="-5"
+        android:text="Hallo bei Moti Pet,\ndeinem Fitness-\nBegleiter für die Hosentasche! "
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/xlarge"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_paper_skew"
+        app:layout_constraintEnd_toEndOf="@+id/iv_paper_skew"
+        app:layout_constraintStart_toStartOf="@+id/iv_paper_skew"
+        app:layout_constraintTop_toTopOf="@+id/iv_paper_skew" />
+
+    <ImageButton
+        android:id="@+id/ib_arrow_r"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="44dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:rotation="175"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_paper_skew"
+        app:layout_constraintEnd_toEndOf="@+id/iv_paper_skew"
+        app:srcCompat="@drawable/arrow" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

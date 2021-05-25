@@ -27,7 +27,7 @@ public class OnboardingActivity extends FragmentActivity {
         setContentView(R.layout.onboarding);
 
         pager = (ViewPager)findViewById(R.id.pager);
-        indicator = (TabLayout)findViewById(R.id.indicator);
+        //indicator = (TabLayout)findViewById(R.id.indicator);
         skip = (Button)findViewById(R.id.skip);
         next = (Button)findViewById(R.id.next);
 
@@ -45,9 +45,9 @@ public class OnboardingActivity extends FragmentActivity {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
-                    case 0 : return new OnboardingFragment1();
-                    case 1 : return new OnboardingFragment2();
-                    case 2 : return new OnboardingFragment3();
+                    //case 0 : return new OnboardingFragment1();
+                    //case 1 : return new OnboardingFragment2();
+                    //case 2 : return new OnboardingFragment3();
                     default: return null;
                 }
             }
@@ -56,7 +56,7 @@ public class OnboardingActivity extends FragmentActivity {
         /**
          * Links the TabLayout to the ViewPager. The individual tabs in the TabLayout are automatically populated with the page titles from the PagerAdapter.
          */
-        indicator.setupWithViewPager(pager);
+        //indicator.setupWithViewPager(pager);
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +75,21 @@ public class OnboardingActivity extends FragmentActivity {
                             pager.getCurrentItem() + 1,
                             true
                     );
+                }
+            }
+        });
+        /**
+         * Sets individual styles for specific pages
+         */
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 2){
+                    skip.setVisibility(View.GONE);
+                    next.setText("Done");
+                } else {
+                    skip.setVisibility(View.VISIBLE);
+                    next.setText("Next");
                 }
             }
         });

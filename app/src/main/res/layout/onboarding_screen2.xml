@@ -1,32 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
-        android:text="Ein ganz tolle App!"
-        android:textSize="@dimen/xxlarge"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/slide2" />
+
+    <ImageView
+        android:id="@+id/ic_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/iv_background"
+        app:srcCompat="@drawable/pic1" />
+
+    <ImageView
+        android:id="@+id/iv_paper"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/paper" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_info"
+        android:layout_width="@dimen/paper_w"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:paddingHorizontal="@dimen/padding_text_hor"
+        android:paddingVertical="@dimen/padding_text_ver"
+        android:text="Diese App ist ein ganz besonderer Schritte-Tracker, der dir dabei hilft, spielendleicht mehr Bewegung in deinen Alltag zu integrieren. "
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/large"
+        app:layout_constraintEnd_toEndOf="@+id/iv_paper"
+        app:layout_constraintStart_toStartOf="@+id/iv_paper"
+        app:layout_constraintTop_toTopOf="@+id/iv_paper" />
+
+    <ImageButton
+        android:id="@+id/ib_arrow_l"
+        android:layout_width="@dimen/arrow_small_w"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_paper"
+        app:layout_constraintStart_toStartOf="@+id/iv_paper"
+        app:srcCompat="@drawable/arrow" />
+
+    <ImageButton
+        android:id="@+id/ib_arrow_r"
+        android:layout_width="@dimen/arrow_small_w"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:rotation="180"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/iv_paper"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:srcCompat="@drawable/arrow" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="@dimen/dots_w"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ib_arrow_l"
+        app:layout_constraintEnd_toStartOf="@+id/ib_arrow_r"
+        app:layout_constraintStart_toEndOf="@+id/ib_arrow_l"
+        app:layout_constraintTop_toTopOf="@+id/ib_arrow_l"
+        app:srcCompat="@drawable/dots1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Bli bla blubb...."
-        android:textSize="@dimen/medium"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="366dp"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.07"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.93" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

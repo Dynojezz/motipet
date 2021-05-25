@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-public class OnboardingFragment2 extends AppCompatActivity {
+public class OnboardingFragment4 extends AppCompatActivity {
 
     ImageButton ib_arrow_l, ib_arrow_r;
     boolean left;
@@ -31,14 +31,14 @@ public class OnboardingFragment2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.onboarding_screen2);
+        setContentView(R.layout.onboarding_screen4);
 
         ib_arrow_l = findViewById(R.id.ib_arrow_l);
         ib_arrow_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 left = false;
-                startActivity(new Intent(OnboardingFragment2.this, OnboardingFragment1.class));
+                startActivity(new Intent(OnboardingFragment4.this, OnboardingFragment3.class));
                 finish();
             }
         });
@@ -47,8 +47,8 @@ public class OnboardingFragment2 extends AppCompatActivity {
         ib_arrow_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OnboardingFragment2.this, OnboardingFragment3.class));
                 left = true;
+                startActivity(new Intent(OnboardingFragment4.this, OnboardingFragment5.class));
                 finish();
             }
         });
@@ -66,13 +66,13 @@ public class OnboardingFragment2 extends AppCompatActivity {
                 // swipe forward
                 if (x1 > x2) {
                     left = true;
-                    Intent i = new Intent(OnboardingFragment2.this, OnboardingFragment3.class);
+                    Intent i = new Intent(OnboardingFragment4.this, OnboardingFragment5.class);
                     startActivity(i);
                     finish();
                 // swipe back
                 } else if (x1 < x2) {
                     left = false;
-                    Intent i = new Intent(OnboardingFragment2.this, OnboardingFragment1.class);
+                    Intent i = new Intent(OnboardingFragment4.this, OnboardingFragment3.class);
                     startActivity(i);
                     finish();
                 }
