@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,10 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
@@ -34,6 +38,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     private int trackedSteps;
     final RxPermissions rxPermissions = new RxPermissions(this);
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             return;
         }
         // Set onboarding_complete to true; REMOVE WHEN READY CODED!!!!!
-        motiPrefs.edit().putBoolean("onboarding_complete",false).apply();
+        // motiPrefs.edit().putBoolean("onboarding_complete",false).apply();
 
         setContentView(R.layout.main);
 
@@ -85,6 +90,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     /**
      * Initializes the step counter
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("CheckResult")
     private void checkIn() {
         // requests for access to stepsensor
@@ -113,21 +119,42 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
      * Puts tracked steps into TextView on the display
      * @param sensorEvent
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        // stores values (steps) from sensor
+        // store values (steps) from sensor
         float[] values = sensorEvent.values;
-        // casts values to int
+        // cast values to int
         int _steps = (int) values[0];
-        System.out.println("-------------------- BEFORE: " + _steps);
         // ... and puts it into local var
         trackedSteps = _steps;
-        // calls SharedPrefs "savedSteps"
+        // call SharedPrefs "savedSteps"
         SharedPreferences stepPrefs = getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
-        // subtracts stored steps from tacked steps
+        // subtract stored steps from tacked steps
         _steps = _steps - stepPrefs.getInt("lastValue", 0);
-        System.out.println("-------------------- AFTER: " + _steps);
-        // puts steps into TextView
+
+        /** Check if new day */
+        SharedPreferences motiPrefs =  getSharedPreferences("motiPrefs", MODE_PRIVATE);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String today = myFormatter.format(now);
+        String lastBoot =  motiPrefs.getString("lastBoot", today); // if no value, set today as initial value
+        if(today.equals(lastBoot)) {
+            
+        } else {
+
+        }
+        if(motiPrefs.getBoolean("newDay", true)) {
+            // update shared prefs
+            updateSharedPrefs(this, trackedSteps);
+            // initialized editor for SharedPrefs
+            SharedPreferences.Editor myEditor = motiPrefs.edit();
+            // puts new value to SharedPrefs
+            myEditor.putBoolean("newDay", false);
+            myEditor.apply();
+        }
+        System.out.println("---------------------- NEW DAY =  " + motiPrefs.getBoolean("newDay", true));
+        // put steps into TextView
         this.steps.setText(String.format(Locale.US, "%d", _steps));
     }
 
@@ -138,9 +165,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
      */
     public static void updateSharedPrefs(Context context, int lastSteps) {
         // calls SharedPrefs "savedSteps"
-        SharedPreferences myPrefs = context.getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
+        SharedPreferences updatePrefs = context.getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
         // initialized editor for SharedPrefs
-        SharedPreferences.Editor myEditor = myPrefs.edit();
+        SharedPreferences.Editor myEditor = updatePrefs.edit();
         // puts new value to SharedPrefs
         myEditor.putInt("lastValue", lastSteps);
         myEditor.apply();
