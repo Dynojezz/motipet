@@ -68,6 +68,12 @@
         <activity android:name=".EggsActivity">
         </activity>
 
+        <!-- registering the receiver -->
+        <receiver
+            android:name=".StepAlarm"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

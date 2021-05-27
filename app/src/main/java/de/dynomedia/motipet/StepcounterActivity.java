@@ -2,6 +2,8 @@ package de.dynomedia.motipet;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +28,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
@@ -84,6 +87,32 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         // setup of the stepcounter
         checkIn();
+
+        Calendar calendar = Calendar.getInstance();
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 0);
+
+        System.out.println("------------------- Stunde: " + calendar.get(Calendar.HOUR_OF_DAY));
+        System.out.println("------------------- Minute: " + calendar.get(Calendar.MINUTE));
+
+        setAlarm(calendar.getTimeInMillis());
+
+    }
+
+    private void setAlarm(long time) {
+        //getting the alarm manager
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        //creating a new intent specifying the broadcast receiver
+        Intent i = new Intent(this, StepAlarm.class);
+
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+        Toast.makeText(this, "Alarm "+ time + " is set", Toast.LENGTH_SHORT).show();
+        System.out.println("Alarm "+ time + " is set");
+
     }
 
 
@@ -145,11 +174,11 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         }
         if(motiPrefs.getBoolean("newDay", true)) {
-            // update shared prefs
+            // update step prefs
             updateSharedPrefs(this, trackedSteps);
-            // initialized editor for SharedPrefs
+            // initialized editor for moti prefs
             SharedPreferences.Editor myEditor = motiPrefs.edit();
-            // puts new value to SharedPrefs
+            // puts new value to moti prefs
             myEditor.putBoolean("newDay", false);
             myEditor.apply();
         }
