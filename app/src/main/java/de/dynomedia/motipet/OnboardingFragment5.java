@@ -55,7 +55,8 @@ public class OnboardingFragment5 extends AppCompatActivity {
                 startActivity(new Intent(OnboardingFragment5.this, EggsActivity.class));
                 finish();
 
-                /** Create MotiLog database*/
+                /** Create MotiLog database. Must be created here and not later in EggsActivity.*/
+
                 SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
                 motiLog.execSQL("CREATE TABLE moti (name TEXT, color TEXT, day INTEGER, st INTEGER, lv INTEGER, steps INTEGER, distance DOUBLE, kcal INTEGER)");
                 motiLog.execSQL("CREATE TABLE day (id TEXT, name TEXT, nr INTEGER, dailysteps INTEGER, dailydistance DOUBLE, dailykcal INTEGER, date DATE, weekday TEXT)");

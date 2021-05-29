@@ -74,6 +74,12 @@
             android:enabled="true"
             android:exported="true" />
 
+        <!-- defining the service -->
+        <service android:name=".StepService"
+            android:enabled="true"
+            android:exported="true"
+            />
+
     </application>
 
 </manifest>

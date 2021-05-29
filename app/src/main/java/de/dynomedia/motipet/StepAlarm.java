@@ -3,9 +3,12 @@ package de.dynomedia.motipet;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.Calendar;
 
 /**
  * This class stores the tracked steps each day at 0:00.
@@ -15,19 +18,15 @@ import android.widget.Toast;
 //class extending the Broadcast Receiver
 public class StepAlarm extends BroadcastReceiver {
 
+    private boolean stepsDetected = false;
+
     //the method will be fired when the alarm is triggerred
-    @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onReceive(Context context, Intent intent) {
-
-        System.out.println("----------------- ALARM! ---------------- ALARM!");
-        SharedPreferences stepPrefs = context.getSharedPreferences("savedSteps", Context.MODE_PRIVATE);
-        // initialized editor for SharedPrefs
-        SharedPreferences.Editor myEditor = stepPrefs.edit();
-        // puts new value to SharedPrefs
-        myEditor.putInt("lastValue", -10000);
-        myEditor.apply();
-        System.out.println("----------------- ALARM! ---------------- ALARM! Neuer Wert: " + stepPrefs.getInt("lastValue", -10000));
-        Log.d("MyAlarm", "Alarm just fired");
+        // set a time and initialize an alarm with that time
+        Calendar calendar = Calendar.getInstance();
+        Log.d("---------------> INFO: ", "Alarm fired at: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
+        context.startForegroundService(new Intent(context, StepService.class));
     }
-
 }

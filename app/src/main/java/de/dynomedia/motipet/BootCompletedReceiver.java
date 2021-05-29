@@ -14,7 +14,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            StepcounterActivity.updateSharedPrefs(context, 0);
+            StepcounterActivity.updateMyPrefs(context, 0);
         }
     }
 }

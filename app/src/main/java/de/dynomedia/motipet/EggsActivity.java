@@ -24,14 +24,15 @@ public class EggsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eggs);
 
+        // get the shared preferences
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+
         iv_egg1 = findViewById(R.id.iv_egg1);
         iv_egg1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get the shared preferences
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
                 // set egg type
-                preferences.edit().putString("moti","egg1").apply();
+                myPrefs.edit().putString("moti","egg1").apply();
                 // set color pattern
                 motiPattern = "pattern2";
                 // make new database entry
@@ -45,8 +46,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
-                preferences.edit().putString("moti","egg2").apply();
+                myPrefs.edit().putString("moti","egg2").apply();
                 motiPattern = "pattern2";
                 pushToMotiLog("egg2");
                 finishOnboarding();
@@ -57,8 +57,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
-                preferences.edit().putString("moti","egg3").apply();
+                myPrefs.edit().putString("moti","egg3").apply();
                 motiPattern = "pattern3";
                 pushToMotiLog("egg3");
                 finishOnboarding();
@@ -69,8 +68,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
-                preferences.edit().putString("moti","egg4").apply();
+                myPrefs.edit().putString("moti","egg4").apply();
                 motiPattern = "pattern4";
                 pushToMotiLog("egg4");
                 finishOnboarding();
@@ -81,8 +79,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
-                preferences.edit().putString("moti","egg5").apply();
+                myPrefs.edit().putString("moti","egg5").apply();
                 motiPattern = "pattern5";
                 pushToMotiLog("egg5");
                 finishOnboarding();
@@ -93,8 +90,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
-                preferences.edit().putString("moti","egg6").apply();
+                myPrefs.edit().putString("moti","egg6").apply();
                 motiPattern = "pattern6";
                 pushToMotiLog("egg6");
                 finishOnboarding();
@@ -165,7 +161,7 @@ public class EggsActivity extends AppCompatActivity {
      */
     private void finishOnboarding() {
         // Get the shared preferences
-        SharedPreferences preferences = getSharedPreferences("motiPrefs", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         // Set onboarding_complete to true
         preferences.edit().putBoolean("onboarding_complete",true).apply();
