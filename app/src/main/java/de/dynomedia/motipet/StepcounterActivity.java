@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,21 +27,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView moti;
-    private TextView steps;
+    private ImageView moti, sync;
+    private TextView tv_steps, tv_distance, tv_calories, tv_name;
     private ImageButton journal;
 
     private SensorManager sm;
     private Sensor s;
 
     final RxPermissions rxPermissions = new RxPermissions(this);
+
+    String name;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -66,7 +68,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         // Set Moti-Image
         String moti_indicator = myPrefs.getString("moti", "egg1");
-        Log.d("---------------> INFO: ", moti_indicator + " wird angezeigt.");
+        Log.d("---------------> INFO", moti_indicator + " wird angezeigt.");
         moti = findViewById(R.id.iv_moti);
         try {
             moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
@@ -74,51 +76,60 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             System.out.println("Moti image not found. Change filename.");
         }
 
-        // initializes step-TextView
-        steps = findViewById(R.id.tv_steps);
+
+
+
+        // initializes TextView for steps, distance, calories and name
+        tv_steps = findViewById(R.id.tv_steps);
+        tv_distance = findViewById(R.id.tv_distance);
+        tv_calories = findViewById(R.id.tv_calories);
+        tv_name = findViewById(R.id.tv_name);
+
+        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+        Cursor myCursor = motiLog.rawQuery("SELECT * FROM moti WHERE motiID = '1'", null);
+        myCursor.moveToFirst();
+        if (myCursor.getCount() == 1) {
+            name = myCursor.getString(1);
+        }
+        tv_name.setText(name);
+        myCursor.close();
+        motiLog.close();
+
+        sync = findViewById(R.id.iv_sync);
+        sync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+                Cursor myCursor = motiLog.rawQuery("SELECT * FROM day WHERE motiID = '1'", null);
+                myCursor.moveToFirst();
+                if (myCursor.getCount() == 1) {
+                    name = myCursor.getString(2);
+                }
+                tv_name.setText(name);
+                myCursor.close();
+                motiLog.close();
+            }
+        });
+
+
+
+
 
         // initializes journal-Button
         journal = findViewById(R.id.ib_journal);
         journal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));
+                startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));//              !!!!!!!!!!!!!!!!!!!
+
+                //startMyService();
             }
         });
 
         // setup of the step counter
         checkIn();
 
-        // set a time and initialize an alarm with that time
-        Calendar calendar = Calendar.getInstance();
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    19, 50, 15);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    19, 50, 15);
-        }
-        setAlarm(calendar.getTimeInMillis());
-    }
-
-
-    /**
-     * Sets the alarm.
-     * @param time alarm time
-     */
-    private void setAlarm(long time) {
-        //getting the alarm manager
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        //creating a new intent specifying the broadcast receiver
-        Intent i = new Intent(this, StepAlarm.class);
-
-        //creating a pending intent using the intent
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
-
-        //setting the repeating alarm that will be fired every day
-        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
-        Toast.makeText(this, "Alarm "+ time + " is set", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -146,7 +157,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             sm.registerListener(this, s, SensorManager.SENSOR_DELAY_UI);
         } else {
             sm.unregisterListener(this);
-            steps.setText(R.string.no_sensor);
+            tv_steps.setText(R.string.no_sensor);
         }
     }
 
@@ -157,7 +168,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        Log.d("---------------> INFO: ", "Sensor Event");
+        Log.d("---------------> INFO", "Sensor Event");
         // store values (steps) from sensor
         float[] values = sensorEvent.values;
         // cast values to int
@@ -165,11 +176,19 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         // Get the shared preferences
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        // sets steps to 0 at first start
+        if (myPrefs.getBoolean("firstStart", true)) {
+            updateMyPrefs(this, _steps);
+        }
         // subtract stored steps from tacked steps
         _steps = _steps - myPrefs.getInt("lastValue", 0);
 
         // put steps into TextView
-        this.steps.setText(String.format(Locale.US, "%d", _steps));
+        this.tv_steps.setText(String.format(Locale.US, "%d", _steps));
+        // put distance into TextView
+        this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
+        // put distance into TextView
+        this.tv_calories.setText(SettingsActivity.getCalories(this, _steps));
     }
 
 

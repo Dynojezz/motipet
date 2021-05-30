@@ -16,6 +16,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/notepad" />
 
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_width="245dp"
+        android:layout_height="222dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="460dp"
+        android:rotation="7"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:srcCompat="@drawable/line_green" />
+
     <TextView
         android:id="@+id/tv_headline"
         android:layout_width="233dp"
@@ -32,6 +45,130 @@
         app:layout_constraintStart_toStartOf="@+id/iv_notepad"
         app:layout_constraintTop_toTopOf="@+id/iv_notepad" />
 
+    <Button
+        android:id="@+id/bt2"
+        android:layout_width="@dimen/bt_large_w"
+        android:layout_height="@dimen/bt_large_h"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/lightgreen"
+        android:elevation="1dp"
+        android:fontFamily="@font/family_body"
+        android:outlineSpotShadowColor="#00FFFFFF"
+        android:paddingHorizontal="20dp"
+        android:shadowColor="#00FFFFFF"
+        android:text="Schrittzähler verbinden"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/medium"
+        app:cornerRadius="40dp"
+        app:icon="@drawable/phone"
+        app:iconPadding="0dp"
+        app:iconSize="30dp"
+        app:iconTint="@color/darkgrey"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+
+    <TextView
+        android:id="@+id/tv_calories"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/family_body"
+        android:text="Kalorien berechnen"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/sw2"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bt2"
+        app:layout_constraintTop_toBottomOf="@+id/bt2"
+        app:layout_constraintWidth_percent=".65" />
+
+    <TextView
+        android:id="@+id/tv_height"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:text="Größe (cm)"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_weight"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintStart_toStartOf="@+id/tv_calories"
+        app:layout_constraintTop_toBottomOf="@+id/tv_calories"
+        app:layout_constraintWidth_percent=".65" />
+
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:text="Gewicht (kg)"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_notification"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintStart_toStartOf="@+id/tv_height"
+        app:layout_constraintTop_toBottomOf="@+id/tv_height"
+        app:layout_constraintWidth_percent=".65" />
+
+    <TextView
+        android:id="@+id/tv_notification"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:text="Benachrichtigungen"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_music"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintStart_toStartOf="@+id/tv_weight"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weight"
+        app:layout_constraintWidth_percent=".65" />
+
+    <TextView
+        android:id="@+id/tv_music"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/family_body"
+        android:text="Musik"
+        android:textColor="@color/darkgrey"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_notepad"
+        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintStart_toStartOf="@+id/tv_notification"
+        app:layout_constraintTop_toBottomOf="@+id/tv_notification"
+        app:layout_constraintWidth_percent=".65" />
+
+    <ImageButton
+        android:id="@+id/ib_arrow"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="38dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/ib_x"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/ib_x"
+        app:layout_constraintVertical_bias="0.2"
+        app:srcCompat="@drawable/arrow" />
+
+    <ImageButton
+        android:id="@+id/iv_info"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/bt2"
+        app:layout_constraintEnd_toEndOf="@+id/bt2"
+        app:srcCompat="@drawable/info_small" />
+
     <ImageButton
         android:id="@+id/ib_x"
         android:layout_width="20dp"
@@ -44,5 +181,76 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
         app:layout_constraintTop_toTopOf="@+id/iv_notepad"
         app:srcCompat="@drawable/x" />
+
+    <Switch
+        android:id="@+id/sw1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Switch"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_calories"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintTop_toTopOf="@+id/tv_calories"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Switch
+        android:id="@+id/sw2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_notification"
+        app:layout_constraintEnd_toEndOf="@+id/sw1"
+        app:layout_constraintTop_toTopOf="@+id/tv_notification" />
+
+    <Switch
+        android:id="@+id/sw3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_music"
+        app:layout_constraintEnd_toEndOf="@+id/sw1"
+        app:layout_constraintTop_toTopOf="@+id/tv_music" />
+
+    <EditText
+        android:id="@+id/et_height"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_height"
+        app:layout_constraintEnd_toEndOf="@+id/sw1"
+        app:layout_constraintStart_toEndOf="@+id/tv_height"
+        app:layout_constraintTop_toTopOf="@+id/tv_height" />
+
+    <EditText
+        android:id="@+id/et_weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_weight"
+        app:layout_constraintEnd_toEndOf="@+id/sw1"
+        app:layout_constraintStart_toEndOf="@+id/tv_height"
+        app:layout_constraintTop_toTopOf="@+id/tv_weight" />
+
+    <Button
+        android:id="@+id/bt_take"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:backgroundTintMode="add"
+        android:fontFamily="@font/family_caps"
+        android:text="Übernehmen"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/darkgrey"
+        android:textSize="@dimen/large"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/sw3"
+        app:strokeColor="@color/darkgrey"
+        app:strokeWidth="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

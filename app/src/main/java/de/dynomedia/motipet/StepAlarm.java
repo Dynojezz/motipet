@@ -25,8 +25,8 @@ public class StepAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // set a time and initialize an alarm with that time
         Calendar calendar = Calendar.getInstance();
-        Log.d("---------------> INFO: ", "Alarm fired at: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+        Log.d("---------------> INFO", "Alarm fired at: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                 calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
-        context.startForegroundService(new Intent(context, StepService.class));
+        context.startService(new Intent(context, StepService.class));
     }
 }

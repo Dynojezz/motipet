@@ -99,29 +99,44 @@ public class EggsActivity extends AppCompatActivity {
     }
 
     private void pushToMotiLog(String motiIndicator) {
+        // get the shared preferences
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        // count up the current number
+        int new_currentNr = myPrefs.getInt("currentNr", 0) + 1;
+        // put new current number into shared preferences
+        SharedPreferences.Editor myEditor = myPrefs.edit();
+        myEditor.putInt("currentNr", new_currentNr);
+        myEditor.apply();
+
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
         if(motiPattern.equals("pattern1")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern1', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern1', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern1 gespeichert.");
 
         } else if (motiPattern.equals("pattern2")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern2', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern2', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern2 gespeichert.");
 
         } else if (motiPattern.equals("pattern3")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern3', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern3', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern3 gespeichert.");
 
         } else if (motiPattern.equals("pattern4")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern4', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern4', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern4 gespeichert.");
 
         } else if (motiPattern.equals("pattern5")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern5', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern5', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern5 gespeichert.");
 
         } else {
-            motiLog.execSQL("INSERT INTO moti VALUES('Moti Ei', 'pattern6', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern6', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.close();
             System.out.println("Moti mit pattern6 gespeichert.");
 
         }
@@ -160,17 +175,21 @@ public class EggsActivity extends AppCompatActivity {
      *
      */
     private void finishOnboarding() {
-        // Get the shared preferences
-        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        // get the shared preferences
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
-        // Set onboarding_complete to true
-        preferences.edit().putBoolean("onboarding_complete",true).apply();
+        // set onboarding_complete to true
+        myPrefs.edit().putBoolean("onboarding_complete",true).apply();
+        // put initial moti-values into shared prefs
+        myPrefs.edit().putInt("motiID", 1).apply();
+        myPrefs.edit().putString("name", "Moti EI");
 
-        // Launch the main Activity, called StepcounterActivity
+
+        // launch the main Activity, called StepcounterActivity
         Intent main = new Intent(this, StepcounterActivity.class);
         startActivity(main);
 
-        // Close the OnboardingActivity
+        // close the OnboardingActivity
         finish();
     }
 }

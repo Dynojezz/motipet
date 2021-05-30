@@ -1,20 +1,20 @@
 package de.dynomedia.motipet;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+
+import java.util.Calendar;
 
 public class OnboardingFragment5 extends AppCompatActivity {
 
@@ -47,7 +47,7 @@ public class OnboardingFragment5 extends AppCompatActivity {
             }
         });
 
-        bt_ok = findViewById(R.id.bt_ok);
+        bt_ok = findViewById(R.id.bt_take);
         bt_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +56,45 @@ public class OnboardingFragment5 extends AppCompatActivity {
                 finish();
 
                 /** Create MotiLog database. Must be created here and not later in EggsActivity.*/
-
                 SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
-                motiLog.execSQL("CREATE TABLE moti (name TEXT, color TEXT, day INTEGER, st INTEGER, lv INTEGER, steps INTEGER, distance DOUBLE, kcal INTEGER)");
-                motiLog.execSQL("CREATE TABLE day (id TEXT, name TEXT, nr INTEGER, dailysteps INTEGER, dailydistance DOUBLE, dailykcal INTEGER, date DATE, weekday TEXT)");
+                motiLog.execSQL("CREATE TABLE day (motiID INTEGER, dayNR INTEGER, dailysteps INTEGER, dailydistance TEXT, dailycalories TEXT, date TEXT, weekday TEXT)");
+                motiLog.execSQL("CREATE TABLE moti (motiID INTEGER, name TEXT, pattern TEXT, day INTEGER, st INTEGER, lv INTEGER, steps INTEGER, distance DOUBLE, kcal INTEGER)");
+                motiLog.close();
+
+                // set a time and initialize an alarm with that time
+                Calendar calendar = Calendar.getInstance();
+                if (android.os.Build.VERSION.SDK_INT >= 23) {
+                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                            23, 59, 0);
+                } else {
+                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                            23, 59, 0);
+                }
+                setAlarm(calendar.getTimeInMillis());
+                Toast.makeText(OnboardingFragment5.this, "Alarm is set at 23:59", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+    /**
+     * Sets the alarm.
+     * @param time alarm time
+     */
+    private void setAlarm(long time) {
+        //getting the alarm manager
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        //creating a new intent specifying the broadcast receiver
+        Intent i = new Intent(this, StepAlarm.class);
+
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+    }
+
 
     float x1, y1, x2, y2;
     public boolean onTouchEvent(MotionEvent touchevent) {

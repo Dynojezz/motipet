@@ -46,14 +46,15 @@ public class JournalActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.settings);
-                x = findViewById(R.id.ib_x);
-                x.setOnClickListener(new View.OnClickListener() {
+                setTheme(R.style.Theme_MotiPet_NewPage);
+                startActivity(new Intent(JournalActivity.this, SettingsActivity.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onClick(View v) {
+                    public void run() {
                         finish();
                     }
-                });
+                }, 70);
             }
         });
 
@@ -61,14 +62,15 @@ public class JournalActivity extends AppCompatActivity {
         manual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.manual);
-                x = findViewById(R.id.ib_x);
-                x.setOnClickListener(new View.OnClickListener() {
+                setTheme(R.style.Theme_MotiPet_NewPage);
+                startActivity(new Intent(JournalActivity.this, ManualActivity.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onClick(View v) {
+                    public void run() {
                         finish();
                     }
-                });
+                }, 70);
             }
         });
 
@@ -98,14 +100,7 @@ public class JournalActivity extends AppCompatActivity {
         tipps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.tipps);
-                x = findViewById(R.id.ib_x);
-                x.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+
             }
         });
 

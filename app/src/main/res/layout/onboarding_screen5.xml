@@ -74,10 +74,10 @@
         android:id="@+id/imageView2"
         android:layout_width="@dimen/dots_w"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/bt_ok"
+        app:layout_constraintBottom_toBottomOf="@+id/bt_take"
         app:layout_constraintEnd_toEndOf="@+id/iv_paper"
         app:layout_constraintStart_toStartOf="@+id/iv_paper"
-        app:layout_constraintTop_toTopOf="@+id/bt_ok"
+        app:layout_constraintTop_toTopOf="@+id/bt_take"
         app:srcCompat="@drawable/dots4" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -103,7 +103,7 @@
         app:layout_constraintGuide_percent="0.93" />
 
     <Button
-        android:id="@+id/bt_ok"
+        android:id="@+id/bt_take"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/bt_ok_w"
         android:layout_height="wrap_content"

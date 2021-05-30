@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class StepService extends Service implements SensorEventListener {
@@ -54,7 +57,7 @@ public class StepService extends Service implements SensorEventListener {
 
 
         // setup of the step counter
-        //checkIn();
+        checkIn();
 
 
         return START_STICKY;
@@ -81,12 +84,14 @@ public class StepService extends Service implements SensorEventListener {
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         //stopping the player when service is destroyed
         player.stop();
+        //stopping the step listener when service is destroyed
+        sm.unregisterListener((SensorEventListener) this);
+        //close databese when service is destroyed
     }
 
     @Override
@@ -100,13 +105,37 @@ public class StepService extends Service implements SensorEventListener {
         // Get the shared preferences
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
-        // put steps into shared preferences
+        // put service-stepvalue into shared preferences
         SharedPreferences.Editor myEditor = myPrefs.edit();
         myEditor.putInt("serviceValue", _serviceSteps);
         myEditor.apply();
 
+        // call updateMyPrefs() to set daily step to 0
+        StepcounterActivity.updateMyPrefs(this, _serviceSteps);
+
+        Log.d("---------------> INFO", _serviceSteps + " Schritte wurden gespeichert");
+
+
+        /**
+         * store daily steps to motiDB
+         */
+        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
+
+        int motiID = myPrefs.getInt("motiID", 1);
+        int new_dayNR = myPrefs.getInt("dayNR", 1) + 1;
+        int new_dailysteps = _serviceSteps;
+        String new_dailydistance = SettingsActivity.getDistance(this, _serviceSteps);
+        String new_dailycalories = SettingsActivity.getCalories(this, _serviceSteps);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
+        String new_date = formatter.format(new Date());
+        int weekday = new Date().getDay();
+
+        motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
+                "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
+
         // finish service
         onDestroy();
+        motiLog.close();
     }
 
     @Override

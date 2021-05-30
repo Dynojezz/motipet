@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
         app:layout_constraintHorizontal_bias="0.565"
         app:layout_constraintStart_toStartOf="@+id/iv_notepad"
-        app:srcCompat="@drawable/line_light" />
+        app:srcCompat="@drawable/line_blue" />
 
     <TextView
         android:id="@+id/tv_headline"
