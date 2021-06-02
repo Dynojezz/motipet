@@ -43,7 +43,7 @@
             android:theme="@style/Theme.MotiPet.NewPage">
         </activity>
 
-        <activity android:name=".MyOVActivity"
+        <activity android:name=".Eval_MyOVActivity"
             android:theme="@style/Theme.MotiPet.NewPage">
         </activity>
 

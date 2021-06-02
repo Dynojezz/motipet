@@ -101,6 +101,8 @@ public class StepService extends Service implements SensorEventListener {
         float[] values = sensorEvent.values;
         // cast values to int
         int _serviceSteps = (int) values[0];
+        // var for the steps of today
+        int _dailySteps;
 
         // Get the shared preferences
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -109,6 +111,9 @@ public class StepService extends Service implements SensorEventListener {
         SharedPreferences.Editor myEditor = myPrefs.edit();
         myEditor.putInt("serviceValue", _serviceSteps);
         myEditor.apply();
+
+        // subtract stored steps from tacked steps to get daily steps
+        _dailySteps = _serviceSteps - myPrefs.getInt("lastValue", 0);
 
         // call updateMyPrefs() to set daily step to 0
         StepcounterActivity.updateMyPrefs(this, _serviceSteps);
@@ -122,10 +127,11 @@ public class StepService extends Service implements SensorEventListener {
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
 
         int motiID = myPrefs.getInt("motiID", 1);
-        int new_dayNR = myPrefs.getInt("dayNR", 1) + 1;
-        int new_dailysteps = _serviceSteps;
-        String new_dailydistance = SettingsActivity.getDistance(this, _serviceSteps);
-        String new_dailycalories = SettingsActivity.getCalories(this, _serviceSteps);
+        int new_dayNR = myPrefs.getInt("dayNR", 0) + 1;
+        myPrefs.edit().putInt("dayNR", new_dayNR).apply();
+        int new_dailysteps = _dailySteps;
+        String new_dailydistance = SettingsActivity.getDistance(this, _dailySteps);
+        String new_dailycalories = SettingsActivity.getCalories(this, _dailySteps);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
         String new_date = formatter.format(new Date());
         int weekday = new Date().getDay();

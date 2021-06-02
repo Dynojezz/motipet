@@ -1,7 +1,6 @@
 package de.dynomedia.motipet;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -58,7 +57,7 @@ public class EvaluationActivity extends AppCompatActivity {
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EvaluationActivity.this, MyOVActivity.class));
+                startActivity(new Intent(EvaluationActivity.this, Eval_MyOVActivity.class));
             }
         });
 

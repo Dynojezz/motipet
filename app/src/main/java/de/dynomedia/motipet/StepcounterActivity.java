@@ -33,7 +33,7 @@ import java.util.Locale;
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
     private ImageView moti, sync;
-    private TextView tv_steps, tv_distance, tv_calories, tv_name;
+    private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name;
     private ImageButton journal;
 
     private SensorManager sm;
@@ -77,8 +77,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
 
 
-
-
         // initializes TextView for steps, distance, calories and name
         tv_steps = findViewById(R.id.tv_steps);
         tv_distance = findViewById(R.id.tv_distance);
@@ -95,25 +93,19 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         myCursor.close();
         motiLog.close();
 
+        // JUST FOR TEST
         sync = findViewById(R.id.iv_sync);
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
-                Cursor myCursor = motiLog.rawQuery("SELECT * FROM day WHERE motiID = '1'", null);
-                myCursor.moveToFirst();
-                if (myCursor.getCount() == 1) {
-                    name = myCursor.getString(2);
-                }
-                tv_name.setText(name);
-                myCursor.close();
-                motiLog.close();
+                // starts the service manually
+                Calendar calendar = Calendar.getInstance();
+                startService(new Intent(StepcounterActivity.this, StepService.class));
+                Log.d("---------------> INFO", "Manually service start at " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                        calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
+                updateView();
             }
         });
-
-
-
 
 
         // initializes journal-Button
@@ -127,8 +119,12 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             }
         });
 
+        // load values to the view
+        updateView();
+
         // setup of the step counter
         checkIn();
+
 
     }
 
@@ -162,6 +158,18 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     }
 
     /**
+     * Loads the saved values into the view.
+     */
+    private void updateView() {
+        // Get the shared preferences
+        SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
+        // set day
+        tv_day = findViewById(R.id.tv_day);
+        int current_dayNR = myPrefs.getInt("dayNR", 0) + 1;
+        tv_day.setText("Tag " + current_dayNR);
+    }
+
+    /**
      * Puts tracked steps into TextView on the display
      * @param sensorEvent everytime the sensor is triggered
      */
@@ -179,6 +187,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // sets steps to 0 at first start
         if (myPrefs.getBoolean("firstStart", true)) {
             updateMyPrefs(this, _steps);
+            myPrefs.edit().putBoolean("firstStart", false).apply();
         }
         // subtract stored steps from tacked steps
         _steps = _steps - myPrefs.getInt("lastValue", 0);
@@ -211,6 +220,8 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onResume() {
         super.onResume();
+        // load values to the view
+        updateView();
     }
 
 

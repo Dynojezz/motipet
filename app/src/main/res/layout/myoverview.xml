@@ -40,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:gravity="center_horizontal" />
 
     <ImageButton
         android:id="@+id/ib_x"
@@ -63,5 +64,18 @@
         app:layout_constraintEnd_toStartOf="@+id/ib_x"
         app:layout_constraintTop_toTopOf="@+id/ib_x"
         app:srcCompat="@drawable/info_small" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_results"
+        android:layout_width="260dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"
+        app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
+        app:layout_constraintStart_toStartOf="@+id/iv_notepad"
+        app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

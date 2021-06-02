@@ -59,6 +59,10 @@ public class OnboardingFragment5 extends AppCompatActivity {
                 SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
                 motiLog.execSQL("CREATE TABLE day (motiID INTEGER, dayNR INTEGER, dailysteps INTEGER, dailydistance TEXT, dailycalories TEXT, date TEXT, weekday TEXT)");
                 motiLog.execSQL("CREATE TABLE moti (motiID INTEGER, name TEXT, pattern TEXT, day INTEGER, st INTEGER, lv INTEGER, steps INTEGER, distance DOUBLE, kcal INTEGER)");
+
+                motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
+                        "VALUES ('1', '1', '0', '0', '0', '0', '0')");
+
                 motiLog.close();
 
                 // set a time and initialize an alarm with that time
