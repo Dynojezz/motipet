@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -49,6 +51,7 @@ public class OnboardingFragment5 extends AppCompatActivity {
 
         bt_ok = findViewById(R.id.bt_take);
         bt_ok.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 left = true;
@@ -85,6 +88,7 @@ public class OnboardingFragment5 extends AppCompatActivity {
      * Sets the alarm.
      * @param time alarm time
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setAlarm(long time) {
         //getting the alarm manager
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -95,8 +99,8 @@ public class OnboardingFragment5 extends AppCompatActivity {
         //creating a pending intent using the intent
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
 
-        //setting the repeating alarm that will be fired every day
-        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+        //setting the alarm; AllowWhileIdle and RTC_WAKEUP for execution in standby
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pi);
     }
 
 

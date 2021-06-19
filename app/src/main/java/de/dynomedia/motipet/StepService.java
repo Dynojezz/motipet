@@ -2,6 +2,8 @@ package de.dynomedia.motipet;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -94,6 +97,7 @@ public class StepService extends Service implements SensorEventListener {
         //close databese when service is destroyed
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Log.d("---------------> INFO: ", "Service Sensor Event");
@@ -120,7 +124,6 @@ public class StepService extends Service implements SensorEventListener {
 
         Log.d("---------------> INFO", _serviceSteps + " Schritte wurden gespeichert");
 
-
         /**
          * store daily steps to motiDB
          */
@@ -139,9 +142,41 @@ public class StepService extends Service implements SensorEventListener {
         motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
                 "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
 
+
+        // set a time and initialize an alarm with that time
+        Calendar calendar = Calendar.getInstance();
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+        Toast.makeText(StepService.this, "Alarm is set at 23:59", Toast.LENGTH_SHORT).show();
+
         // finish service
         onDestroy();
         motiLog.close();
+    }
+
+    /**
+     * Sets the alarm.
+     * @param time alarm time
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setAlarm(long time) {
+        //getting the alarm manager
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        //creating a new intent specifying the broadcast receiver
+        Intent i = new Intent(this, StepAlarm.class);
+
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        //setting the repeating alarm that will be fired every day
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pi);
     }
 
     @Override

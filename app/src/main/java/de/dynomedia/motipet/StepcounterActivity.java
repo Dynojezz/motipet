@@ -32,9 +32,9 @@ import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView moti, sync;
-    private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name;
-    private ImageButton journal;
+    private ImageView iv_moti, sync;
+    private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st;
+    private ImageButton ib_journal;
 
     private SensorManager sm;
     private Sensor s;
@@ -42,6 +42,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     final RxPermissions rxPermissions = new RxPermissions(this);
 
     String name;
+    int moti_steps, lv, st;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -51,7 +52,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // Get the shared preferences
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
 
-        // Check if onboarding_complete is false
+        /** Check if onboarding_complete is false */
         if(!myPrefs.getBoolean("onboarding_complete",false)) {
             // Start the onboarding Activity
             Intent onboarding = new Intent(this, OnboardingFragment1.class);
@@ -66,32 +67,25 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         setContentView(R.layout.main);
 
-        // Set Moti-Image
-        String moti_indicator = myPrefs.getString("moti", "egg1");
-        Log.d("---------------> INFO", moti_indicator + " wird angezeigt.");
-        moti = findViewById(R.id.iv_moti);
-        try {
-            moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
-        } catch (Exception e) {
-            System.out.println("Moti image not found. Change filename.");
-        }
+        // initializes journal-Button
+        ib_journal = findViewById(R.id.ib_journal);
+        ib_journal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));
+            }
+        });
 
 
-        // initializes TextView for steps, distance, calories and name
+        // initializes views
+        tv_day = findViewById(R.id.tv_day);
         tv_steps = findViewById(R.id.tv_steps);
         tv_distance = findViewById(R.id.tv_distance);
         tv_calories = findViewById(R.id.tv_calories);
+        iv_moti = findViewById(R.id.iv_moti);
         tv_name = findViewById(R.id.tv_name);
-
-        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
-        Cursor myCursor = motiLog.rawQuery("SELECT * FROM moti WHERE motiID = '1'", null);
-        myCursor.moveToFirst();
-        if (myCursor.getCount() == 1) {
-            name = myCursor.getString(1);
-        }
-        tv_name.setText(name);
-        myCursor.close();
-        motiLog.close();
+        tv_lv = findViewById(R.id.tv_lv);
+        tv_st = findViewById(R.id.tv_st);
 
         // JUST FOR TEST
         sync = findViewById(R.id.iv_sync);
@@ -104,18 +98,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
                 Log.d("---------------> INFO", "Manually service start at " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                         calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
                 updateView();
-            }
-        });
-
-
-        // initializes journal-Button
-        journal = findViewById(R.id.ib_journal);
-        journal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));//              !!!!!!!!!!!!!!!!!!!
-
-                //startMyService();
             }
         });
 
@@ -163,10 +145,50 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     private void updateView() {
         // Get the shared preferences
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
-        // set day
-        tv_day = findViewById(R.id.tv_day);
+
+        /** Load Day Nr.*/
         int current_dayNR = myPrefs.getInt("dayNR", 0) + 1;
         tv_day.setText("Tag " + current_dayNR);
+
+        /** Load Moti Image */
+        String moti_indicator = myPrefs.getString("moti", "egg1");
+        Log.d("---------------> INFO", moti_indicator + " wird angezeigt.");
+        try {
+            iv_moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
+        } catch (Exception e) {
+            System.out.println("Moti image not found. Change filename.");
+        }
+
+        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+        /** Load Moti Name*/
+        Cursor cursorName = motiLog.rawQuery("SELECT * FROM moti WHERE motiID = '1'", null);
+        cursorName.moveToFirst();
+        if (cursorName.getCount() == 1) {
+            name = cursorName.getString(1);
+        }
+        tv_name.setText(name);
+        cursorName.close();
+
+        /** Calc Moti Lv from steps*/
+        motiLog.execSQL("UPDATE moti SET steps ='456789' WHERE motiID = '1'"); // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Cursor cursorMoti = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        cursorMoti.moveToFirst();
+        if (cursorMoti.getCount() == 1) {
+            lv = cursorMoti.getInt(0)/1000;
+        }
+        cursorMoti.close();
+        motiLog.execSQL("UPDATE moti SET lv ='"+lv+"' WHERE motiID = '1'"); // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+        // put moti lb tv textview
+        Cursor cursorMoti2 = motiLog.rawQuery("SELECT lv FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        cursorMoti2.moveToFirst();
+        if (cursorMoti2.getCount() == 1) {
+            lv = cursorMoti2.getInt(0);
+        }
+        tv_lv.setText("Lv " + lv);
+        cursorMoti2.close();
+        motiLog.close();
     }
 
     /**
@@ -193,7 +215,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         _steps = _steps - myPrefs.getInt("lastValue", 0);
 
         // put steps into TextView
-        this.tv_steps.setText(String.format(Locale.US, "%d", _steps));
+        this.tv_steps.setText(String.format(Locale.GERMANY, "%d", _steps));
         // put distance into TextView
         this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
         // put distance into TextView
