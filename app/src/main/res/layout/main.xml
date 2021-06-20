@@ -140,7 +140,7 @@
         app:srcCompat="@drawable/flame" />
 
     <ImageView
-        android:id="@+id/iv_loadingbar"
+        android:id="@+id/iv_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
@@ -149,7 +149,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/loadingbar" />
+        app:srcCompat="@drawable/pb_00" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -178,7 +178,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_loadingbar" />
+        app:layout_constraintTop_toTopOf="@+id/iv_progressbar" />
 
     <TextView
         android:id="@+id/tv_st"
@@ -186,14 +186,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/family_body"
         android:fontStyle="italic"
-        android:text="Lv 5"
+        android:text="St 5"
         android:textColor="@color/darkgrey"
         android:textSize="@dimen/large"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_loadingbar"
-        app:layout_constraintEnd_toEndOf="@+id/iv_loadingbar"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_progressbar"
+        app:layout_constraintEnd_toEndOf="@+id/iv_progressbar"
         app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="@+id/iv_loadingbar"
-        app:layout_constraintTop_toTopOf="@+id/iv_loadingbar" />
+        app:layout_constraintStart_toStartOf="@+id/iv_progressbar"
+        app:layout_constraintTop_toTopOf="@+id/iv_progressbar" />
 
     <ImageView
         android:id="@+id/iv_sync"

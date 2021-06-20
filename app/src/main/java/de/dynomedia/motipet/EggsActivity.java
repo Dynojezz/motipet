@@ -32,9 +32,9 @@ public class EggsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // set egg type
-                myPrefs.edit().putString("moti","egg1").apply();
+                myPrefs.edit().putInt("pattern", 1).apply();
                 // set color pattern
-                motiPattern = "pattern2";
+                motiPattern = "pattern1";
                 // make new database entry
                 pushToMotiLog("egg1");
                 // finish onboarding
@@ -46,7 +46,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPrefs.edit().putString("moti","egg2").apply();
+                myPrefs.edit().putInt("pattern",2).apply();
                 motiPattern = "pattern2";
                 pushToMotiLog("egg2");
                 finishOnboarding();
@@ -57,7 +57,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPrefs.edit().putString("moti","egg3").apply();
+                myPrefs.edit().putInt("pattern", 3).apply();
                 motiPattern = "pattern3";
                 pushToMotiLog("egg3");
                 finishOnboarding();
@@ -68,7 +68,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPrefs.edit().putString("moti","egg4").apply();
+                myPrefs.edit().putInt("pattern", 4).apply();
                 motiPattern = "pattern4";
                 pushToMotiLog("egg4");
                 finishOnboarding();
@@ -79,7 +79,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPrefs.edit().putString("moti","egg5").apply();
+                myPrefs.edit().putInt("pattern", 5).apply();
                 motiPattern = "pattern5";
                 pushToMotiLog("egg5");
                 finishOnboarding();
@@ -90,7 +90,7 @@ public class EggsActivity extends AppCompatActivity {
         iv_egg6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPrefs.edit().putString("moti","egg6").apply();
+                myPrefs.edit().putInt("pattern", 6).apply();
                 motiPattern = "pattern6";
                 pushToMotiLog("egg6");
                 finishOnboarding();
@@ -110,32 +110,32 @@ public class EggsActivity extends AppCompatActivity {
 
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
         if(motiPattern.equals("pattern1")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern1', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '1', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern1 gespeichert.");
 
         } else if (motiPattern.equals("pattern2")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern2', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '2', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern2 gespeichert.");
 
         } else if (motiPattern.equals("pattern3")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern3', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '3', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern3 gespeichert.");
 
         } else if (motiPattern.equals("pattern4")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern4', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '4', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern4 gespeichert.");
 
         } else if (motiPattern.equals("pattern5")) {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern5', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '5', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern5 gespeichert.");
 
         } else {
-            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', 'pattern6', '1', '0', '0', '0', '0.0', '0')");
+            motiLog.execSQL("INSERT INTO moti VALUES('"+new_currentNr+"', 'Moti Ei', '6', '1', '0', '0', '0', '0.0', '0')");
             motiLog.close();
             System.out.println("Moti mit pattern6 gespeichert.");
 

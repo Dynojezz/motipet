@@ -17,6 +17,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView iv_moti, sync;
+    private ImageView iv_moti, sync, iv_progressbar;
     private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st;
     private ImageButton ib_journal;
 
@@ -42,7 +44,11 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     final RxPermissions rxPermissions = new RxPermissions(this);
 
     String name;
-    int moti_steps, lv, st;
+    int moti_steps, lv, st, current_steps;
+
+    // Animation
+    Animation animUpDown;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -86,6 +92,11 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         tv_name = findViewById(R.id.tv_name);
         tv_lv = findViewById(R.id.tv_lv);
         tv_st = findViewById(R.id.tv_st);
+        iv_progressbar = findViewById(R.id.iv_progressbar);
+
+        // load the animation
+        animUpDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_down);
+        animUpDown.setRepeatCount(Animation.INFINITE);
 
         // JUST FOR TEST
         sync = findViewById(R.id.iv_sync);
@@ -150,46 +161,24 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         int current_dayNR = myPrefs.getInt("dayNR", 0) + 1;
         tv_day.setText("Tag " + current_dayNR);
 
-        /** Load Moti Image */
-        String moti_indicator = myPrefs.getString("moti", "egg1");
-        Log.d("---------------> INFO", moti_indicator + " wird angezeigt.");
-        try {
-            iv_moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
-        } catch (Exception e) {
-            System.out.println("Moti image not found. Change filename.");
-        }
+        /** Load Moti Img*/
+        updateMoti();
 
-        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
         /** Load Moti Name*/
-        Cursor cursorName = motiLog.rawQuery("SELECT * FROM moti WHERE motiID = '1'", null);
+        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+        Cursor cursorName = motiLog.rawQuery("SELECT * FROM moti WHERE motiID = '1'", null);    // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         cursorName.moveToFirst();
         if (cursorName.getCount() == 1) {
             name = cursorName.getString(1);
         }
         tv_name.setText(name);
         cursorName.close();
-
-        /** Calc Moti Lv from steps*/
-        motiLog.execSQL("UPDATE moti SET steps ='456789' WHERE motiID = '1'"); // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Cursor cursorMoti = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        cursorMoti.moveToFirst();
-        if (cursorMoti.getCount() == 1) {
-            lv = cursorMoti.getInt(0)/1000;
-        }
-        cursorMoti.close();
-        motiLog.execSQL("UPDATE moti SET lv ='"+lv+"' WHERE motiID = '1'"); // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-        // put moti lb tv textview
-        Cursor cursorMoti2 = motiLog.rawQuery("SELECT lv FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        cursorMoti2.moveToFirst();
-        if (cursorMoti2.getCount() == 1) {
-            lv = cursorMoti2.getInt(0);
-        }
-        tv_lv.setText("Lv " + lv);
-        cursorMoti2.close();
+        // close db
         motiLog.close();
+        iv_moti.startAnimation(animUpDown);
     }
+
+
 
     /**
      * Puts tracked steps into TextView on the display
@@ -213,6 +202,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
         // subtract stored steps from tacked steps
         _steps = _steps - myPrefs.getInt("lastValue", 0);
+        current_steps = _steps;
 
         // put steps into TextView
         this.tv_steps.setText(String.format(Locale.GERMANY, "%d", _steps));
@@ -220,6 +210,8 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
         // put distance into TextView
         this.tv_calories.setText(SettingsActivity.getCalories(this, _steps));
+
+        updateProgressBar();
     }
 
 
@@ -250,4 +242,221 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
+
+
+    /**
+     * Loads the saved values into the view.
+     */
+    private void updateProgressBar() {
+        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+        /** Calc Moti Lv from steps*/
+        //motiLog.execSQL("UPDATE moti SET steps ='456789' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Cursor cursorMoti = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        cursorMoti.moveToFirst();
+        if (cursorMoti.getCount() == 1) {
+            lv = cursorMoti.getInt(0) ;
+            lv = (lv + current_steps) /1000;
+        }
+        cursorMoti.close();
+        motiLog.execSQL("UPDATE moti SET lv ='"+lv+"' WHERE motiID = '1'"); // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        // put moti lv to textview
+        Cursor cursorMoti2 = motiLog.rawQuery("SELECT lv FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        cursorMoti2.moveToFirst();
+        if (cursorMoti2.getCount() == 1) {
+            lv = cursorMoti2.getInt(0);
+        }
+        tv_lv.setText("Lv " + lv);
+        cursorMoti2.close();
+
+        /** Calc St from Lv*/
+        if(lv >= 200) {
+            tv_st.setText("St " + 5);
+        } else if (lv >= 100) {
+            tv_st.setText("St " + 4);
+        } else if (lv >= 50) {
+            tv_st.setText("St " + 3);
+        } else if (lv >= 15) {
+            tv_st.setText("St " + 2);
+        } else if (lv >= 1) {
+            tv_st.setText("St " + 1);
+        } else if (lv >= 0) {
+            tv_st.setText("St " + 0);
+        }
+        /** Update Moti*/
+        updateMoti();
+
+        /** Setup progress bar*/
+        Cursor cursorMoti3 = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        cursorMoti3.moveToFirst();
+        if (cursorMoti3.getCount() == 1) {
+            moti_steps = cursorMoti3.getInt(0) + current_steps;
+        }
+        cursorMoti3.close();
+        // close db
+        motiLog.close();
+
+        /** Check if envolve*/
+        //if(moti_steps == 1000 || moti_steps == 15000 || moti_steps == 50000 || moti_steps == 100000 || moti_steps == 200000) {
+        //    updateMoti();
+        //}
+
+        if(lv >= 200) {
+            // volle Leiste
+        } else if (lv >= 100) {
+            //St 4; update each 10.000 steps
+            if (moti_steps >= 200000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
+            } else if (moti_steps >= 190000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_09","drawable",getPackageName()));
+            } else if (moti_steps >= 180000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_08","drawable",getPackageName()));
+            } else if (moti_steps >= 170000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_07","drawable",getPackageName()));
+            } else if (moti_steps >= 160000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_06","drawable",getPackageName()));
+            } else if (moti_steps >= 150000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_05","drawable",getPackageName()));
+            } else if (moti_steps >= 140000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_04","drawable",getPackageName()));
+            } else if (moti_steps >= 130000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_03","drawable",getPackageName()));
+            } else if (moti_steps >= 120000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_02","drawable",getPackageName()));
+            } else if (moti_steps >= 110000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_01","drawable",getPackageName()));
+            } else if (moti_steps >= 100000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_00","drawable",getPackageName()));
+            }
+        } else if (lv >= 50) {
+            //St 3; update each 5.000 steps
+            if (moti_steps >= 100000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
+            } else if (moti_steps >= 95000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_09","drawable",getPackageName()));
+            } else if (moti_steps >= 90000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_08","drawable",getPackageName()));
+            } else if (moti_steps >= 85000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_07","drawable",getPackageName()));
+            } else if (moti_steps >= 80000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_06","drawable",getPackageName()));
+            } else if (moti_steps >= 75000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_05","drawable",getPackageName()));
+            } else if (moti_steps >= 70000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_04","drawable",getPackageName()));
+            } else if (moti_steps >= 65000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_03","drawable",getPackageName()));
+            } else if (moti_steps >= 60000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_02","drawable",getPackageName()));
+            } else if (moti_steps >= 55000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_01","drawable",getPackageName()));
+            } else if (moti_steps >= 50000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_00","drawable",getPackageName()));
+            }
+        } else if (lv >= 15) {
+            //St 2; update each 3.500 steps
+            if (moti_steps >= 50000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
+            } else if (moti_steps >= 46500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_09","drawable",getPackageName()));
+            } else if (moti_steps >= 43000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_08","drawable",getPackageName()));
+            } else if (moti_steps >= 39500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_07","drawable",getPackageName()));
+            } else if (moti_steps >= 36000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_06","drawable",getPackageName()));
+            } else if (moti_steps >= 32500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_05","drawable",getPackageName()));
+            } else if (moti_steps >= 29000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_04","drawable",getPackageName()));
+            } else if (moti_steps >= 25500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_03","drawable",getPackageName()));
+            } else if (moti_steps >= 22000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_02","drawable",getPackageName()));
+            } else if (moti_steps >= 18500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_01","drawable",getPackageName()));
+            } else if (moti_steps >= 15000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_00","drawable",getPackageName()));
+            }
+        } else if (lv >= 1) {
+            //St 1; update each 1.400 steps
+            if (moti_steps >= 15000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
+            } else if (moti_steps >= 13600) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_09","drawable",getPackageName()));
+            } else if (moti_steps >= 12200) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_08","drawable",getPackageName()));
+            } else if (moti_steps >= 10800) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_07","drawable",getPackageName()));
+            } else if (moti_steps >= 9400) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_06","drawable",getPackageName()));
+            } else if (moti_steps >= 8000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_05","drawable",getPackageName()));
+            } else if (moti_steps >= 6600) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_04","drawable",getPackageName()));
+            } else if (moti_steps >= 5200) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_03","drawable",getPackageName()));
+            } else if (moti_steps >= 3800) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_02","drawable",getPackageName()));
+            } else if (moti_steps >= 2400) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_01","drawable",getPackageName()));
+            } else if (moti_steps >= 1000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_00","drawable",getPackageName()));
+            }
+        } else if (lv >= 0) {
+            //St 0; update each 100 steps
+            if (moti_steps >= 1000) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
+            } else if (moti_steps >= 900) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_09","drawable",getPackageName()));
+            } else if (moti_steps >= 800) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_08","drawable",getPackageName()));
+            } else if (moti_steps >= 700) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_07","drawable",getPackageName()));
+            } else if (moti_steps >= 600) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_06","drawable",getPackageName()));
+            } else if (moti_steps >= 500) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_05","drawable",getPackageName()));
+            } else if (moti_steps >= 400) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_04","drawable",getPackageName()));
+            } else if (moti_steps >= 300) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_03","drawable",getPackageName()));
+            } else if (moti_steps >= 200) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_02","drawable",getPackageName()));
+            } else if (moti_steps >= 100) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_01","drawable",getPackageName()));
+            } else if (moti_steps >= 0) {
+                iv_progressbar.setImageResource(getResources().getIdentifier("pb_00","drawable",getPackageName()));
+            }
+        }
+    }
+
+    private void updateMoti() {
+
+        lv = (lv + current_steps) /1000;
+        /** Load Moti Image */
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        String moti_indicator = "egg";
+        if(lv >= 200) {
+            moti_indicator = "adult" + myPrefs.getInt("pattern", 1);
+        } else if (lv >= 100) {
+            moti_indicator = "teen" + myPrefs.getInt("pattern", 1);
+            iv_moti.setPadding(50,150,180,30);
+        } else if (lv >= 50) {
+            moti_indicator = "child" + myPrefs.getInt("pattern", 1);
+            iv_moti.setPadding(100,150,100,30);
+        } else if (lv >= 15) {
+            moti_indicator = "toddler" + myPrefs.getInt("pattern", 1);
+            iv_moti.setPadding(200,150,200,30);
+        } else if (lv >= 1) {
+            moti_indicator = "baby" + myPrefs.getInt("pattern", 1);
+            iv_moti.setPadding(200,30,200,30);
+        } else if (lv >= 0) {
+            moti_indicator = "egg" + myPrefs.getInt("pattern", 1);
+            iv_moti.setPadding(100,30,100,30);
+        }
+        iv_moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
+
+    }
+
 }

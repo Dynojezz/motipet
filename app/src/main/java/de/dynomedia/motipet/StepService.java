@@ -142,6 +142,12 @@ public class StepService extends Service implements SensorEventListener {
         motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
                 "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
 
+        /** update moti steps and put into shared prefs and db*/
+        int motiSteps = myPrefs.getInt("motiSteps", 123456); // CHANGE VALUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        motiSteps = motiSteps + new_dailysteps;
+        myPrefs.edit().putInt("motiSteps", motiSteps).apply();
+        motiLog.execSQL("UPDATE moti SET steps ='"+motiSteps+"' WHERE motiID = '1'");
+
 
         // set a time and initialize an alarm with that time
         Calendar calendar = Calendar.getInstance();
