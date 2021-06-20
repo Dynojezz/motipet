@@ -143,10 +143,10 @@ public class StepService extends Service implements SensorEventListener {
                 "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
 
         /** update moti steps and put into shared prefs and db*/
-        int motiSteps = myPrefs.getInt("motiSteps", 0); // CHANGE VALUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        int motiSteps = myPrefs.getInt("motiSteps", 0);
         motiSteps = motiSteps + new_dailysteps;
         myPrefs.edit().putInt("motiSteps", motiSteps).apply();
-        motiLog.execSQL("UPDATE moti SET steps ='"+motiSteps+"' WHERE motiID = '1'");
+        motiLog.execSQL("UPDATE moti SET steps ='"+motiSteps+"' WHERE motiID = '1'");   // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 

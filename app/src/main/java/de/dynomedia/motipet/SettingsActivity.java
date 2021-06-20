@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Setup EditTexts
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
-        et_height = findViewById(R.id.et_height);
+        et_height = findViewById(R.id.et_name);
         et_height.setText(myPrefs.getString("height", "173"));
         et_weight = findViewById(R.id.et_weight);
         et_weight.setText(myPrefs.getString("weight", "80.2"));
@@ -83,6 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
                 // apply changes from editor
                 myEditor.apply();
 
+                Toast.makeText(SettingsActivity.this,"Werte aktualisiert", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st, tv_info;
     private Button bt_ok;
     private ImageButton ib_journal;
+    private EditText et_name;
 
     private SensorManager sm;
     private Sensor s;
@@ -95,6 +97,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         tv_lv = findViewById(R.id.tv_lv);
         tv_st = findViewById(R.id.tv_st);
         iv_progressbar = findViewById(R.id.iv_progressbar);
+        et_name = findViewById(R.id.et_name);
 
         if(myPrefs.getBoolean("info_note",true)) {
             iv_note = findViewById(R.id.iv_note);
@@ -277,8 +280,8 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         /** Calc Moti Lv from steps*/
 
         motiLog.execSQL("UPDATE moti SET steps ='1000' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        myPrefs.edit().putBoolean("set_name", true).apply(); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        //myPrefs.edit().putBoolean("set_name", true).apply(); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         Cursor cursorMoti = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         cursorMoti.moveToFirst();
@@ -504,6 +507,8 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             tv_info = findViewById(R.id.tv_info);
             tv_info.setText("Herzlichen Glückwunsch, dein Moti ist geschlüpft! Wie möchtest du es nennen?");
             tv_info.setVisibility(View.VISIBLE);
+            et_name.findViewById(R.id.et_name);
+            et_name.setVisibility(View.VISIBLE);
             bt_ok = findViewById(R.id.bt_ok);
             bt_ok.setVisibility(View.VISIBLE);
             bt_ok.setOnClickListener(new View.OnClickListener() {
@@ -512,8 +517,14 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
                 @Override
                 public void onClick(View v) {
                     if (counter == 1) {
+                        moti_name = et_name.getText().toString();
+                        SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
+                        motiLog.execSQL("UPDATE moti SET name ='"+moti_name+"' WHERE motiID = '1'");    // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         tv_info.setText("Hallo " + moti_name + " :) Schon neugierig, wie dein Moti sich entwickeln wird? Dann heißt es fleißig schritte sammeln!");
+                        et_name.setVisibility(View.GONE);
+                        updateView();
                         counter++;
+                        motiLog.close();
                     } else if (counter == 2) {
                         tv_info.setText("Bei 1000 Schritten steigt dein Moti 1 Level (Lv) auf. Hast du ein bestimmtes Level erreicht, entwickelt sich dein Moti zum nächsten Stadium (St).");
                         counter++;

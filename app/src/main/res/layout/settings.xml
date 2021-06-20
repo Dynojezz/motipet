@@ -212,7 +212,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_music" />
 
     <EditText
-        android:id="@+id/et_height"
+        android:id="@+id/et_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

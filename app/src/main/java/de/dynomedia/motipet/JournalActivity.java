@@ -1,17 +1,27 @@
 package de.dynomedia.motipet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class JournalActivity extends AppCompatActivity {
 
     ImageButton x, settings, manual, evaluation, trophys, tipps, motilog;
+    TextView tv_quote;
 
     public static String aniMode;
 
@@ -118,7 +128,19 @@ public class JournalActivity extends AppCompatActivity {
                 });
             }
         });
+        tv_quote = findViewById(R.id.tv_quote);
 
+        /** Set new quote */
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        int counter = myPrefs.getInt("quoteNumber", 0);
+
+        if (counter < 75) {
+            tv_quote.setText(Quotes.getQuote(counter));
+            counter = counter + 1;
+            myPrefs.edit().putInt("quoteNumber", counter).apply();
+        } else {
+            myPrefs.edit().putInt("quoteNumber", 0).apply();
+        }
     }
 
     public static void setAniMode (String mode) {
