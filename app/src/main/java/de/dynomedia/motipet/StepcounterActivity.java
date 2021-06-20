@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,8 +35,9 @@ import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView iv_moti, sync, iv_progressbar;
-    private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st;
+    private ImageView iv_moti, sync, iv_progressbar, iv_note;
+    private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st, tv_info;
+    private Button bt_ok;
     private ImageButton ib_journal;
 
     private SensorManager sm;
@@ -93,6 +95,32 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         tv_lv = findViewById(R.id.tv_lv);
         tv_st = findViewById(R.id.tv_st);
         iv_progressbar = findViewById(R.id.iv_progressbar);
+
+        if(myPrefs.getBoolean("info_note",true)) {
+            iv_note = findViewById(R.id.iv_note);
+            iv_note.setVisibility(View.VISIBLE);
+            tv_info = findViewById(R.id.tv_info);
+            tv_info.setVisibility(View.VISIBLE);
+            bt_ok = findViewById(R.id.bt_ok);
+            bt_ok.setVisibility(View.VISIBLE);
+            bt_ok.setOnClickListener(new View.OnClickListener() {
+                int counter = 1;
+
+                @Override
+                public void onClick(View v) {
+                    if (counter == 1) {
+                        tv_info.setText("Zwischendurch kannst du immer mal unten auf den Fortschrittsbalken schauen. Sobald dieser voll ist, entwickelt sich dein Moti weiter!");
+                        counter++;
+                    } else if (counter == 2) {
+                        tv_info.setText("");
+                        tv_info.setVisibility(View.GONE);
+                        bt_ok.setVisibility(View.GONE);
+                        iv_note.setVisibility(View.GONE);
+                        myPrefs.edit().putBoolean("info_note", false).apply();
+                    }
+                }
+            });
+        }
 
         // load the animation
         animUpDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_down);
@@ -157,9 +185,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // Get the shared preferences
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
 
-        /** Load Day Nr.*/
-        int current_dayNR = myPrefs.getInt("dayNR", 0) + 1;
-        tv_day.setText("Tag " + current_dayNR);
 
         /** Load Moti Img*/
         updateMoti();
@@ -250,7 +275,11 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     private void updateProgressBar() {
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
         /** Calc Moti Lv from steps*/
-        //motiLog.execSQL("UPDATE moti SET steps ='456789' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        motiLog.execSQL("UPDATE moti SET steps ='1000' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        myPrefs.edit().putBoolean("set_name", true).apply(); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         Cursor cursorMoti = motiLog.rawQuery("SELECT steps FROM moti WHERE motiID = '1'", null);  // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         cursorMoti.moveToFirst();
         if (cursorMoti.getCount() == 1) {
@@ -268,6 +297,11 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
         tv_lv.setText("Lv " + lv);
         cursorMoti2.close();
+
+        /** Open name note*/
+        if (lv == 1) {
+            setName();
+        }
 
         /** Calc St from Lv*/
         if(lv >= 200) {
@@ -302,7 +336,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         //}
 
         if(lv >= 200) {
-            // volle Leiste
+            iv_progressbar.setImageResource(getResources().getIdentifier("pb_10","drawable",getPackageName()));
         } else if (lv >= 100) {
             //St 4; update each 10.000 steps
             if (moti_steps >= 200000) {
@@ -433,7 +467,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     private void updateMoti() {
 
-        lv = (lv + current_steps) /1000;
         /** Load Moti Image */
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         String moti_indicator = "egg";
@@ -457,6 +490,46 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
         iv_moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
 
+        /** Load Day Nr.*/
+        int current_dayNR = myPrefs.getInt("dayNR", 0) + 1;
+        tv_day.setText("Tag " + current_dayNR);
+
+    }
+
+    private void setName() {
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        if(myPrefs.getBoolean("set_name",true)) {
+            iv_note = findViewById(R.id.iv_note);
+            iv_note.setVisibility(View.VISIBLE);
+            tv_info = findViewById(R.id.tv_info);
+            tv_info.setText("Herzlichen Glückwunsch, dein Moti ist geschlüpft! Wie möchtest du es nennen?");
+            tv_info.setVisibility(View.VISIBLE);
+            bt_ok = findViewById(R.id.bt_ok);
+            bt_ok.setVisibility(View.VISIBLE);
+            bt_ok.setOnClickListener(new View.OnClickListener() {
+                int counter = 1;
+                String moti_name = "Peterchen";
+                @Override
+                public void onClick(View v) {
+                    if (counter == 1) {
+                        tv_info.setText("Hallo " + moti_name + " :) Schon neugierig, wie dein Moti sich entwickeln wird? Dann heißt es fleißig schritte sammeln!");
+                        counter++;
+                    } else if (counter == 2) {
+                        tv_info.setText("Bei 1000 Schritten steigt dein Moti 1 Level (Lv) auf. Hast du ein bestimmtes Level erreicht, entwickelt sich dein Moti zum nächsten Stadium (St).");
+                        counter++;
+                    } else if (counter == 3) {
+                        tv_info.setText("Für eine genauere Erklärung, Tipps, App-Einstellungen und zur Anzeige deiner Fitness Auswertungen schau mal im Journal vorbei :)");
+                        counter++;
+                    } else if (counter == 4) {
+                        tv_info.setText("");
+                        tv_info.setVisibility(View.GONE);
+                        bt_ok.setVisibility(View.GONE);
+                        iv_note.setVisibility(View.GONE);
+                        myPrefs.edit().putBoolean("set_name", false).apply();
+                    }
+                }
+            });
+        }
     }
 
 }

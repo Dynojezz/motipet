@@ -1,8 +1,5 @@
 package de.dynomedia.motipet;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -11,12 +8,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Calendar;
 
 public class OnboardingFragment5 extends AppCompatActivity {
 
@@ -49,7 +43,7 @@ public class OnboardingFragment5 extends AppCompatActivity {
             }
         });
 
-        bt_ok = findViewById(R.id.bt_take);
+        bt_ok = findViewById(R.id.bt_ok);
         bt_ok.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -68,39 +62,9 @@ public class OnboardingFragment5 extends AppCompatActivity {
 
                 motiLog.close();
 
-                // set a time and initialize an alarm with that time
-                Calendar calendar = Calendar.getInstance();
-                if (android.os.Build.VERSION.SDK_INT >= 23) {
-                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                            23, 59, 0);
-                } else {
-                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                            23, 59, 0);
-                }
-                setAlarm(calendar.getTimeInMillis());
-                Toast.makeText(OnboardingFragment5.this, "Alarm is set at 23:59", Toast.LENGTH_SHORT).show();
+
             }
         });
-    }
-
-
-    /**
-     * Sets the alarm.
-     * @param time alarm time
-     */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void setAlarm(long time) {
-        //getting the alarm manager
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        //creating a new intent specifying the broadcast receiver
-        Intent i = new Intent(this, StepAlarm.class);
-
-        //creating a pending intent using the intent
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
-
-        //setting the alarm; AllowWhileIdle and RTC_WAKEUP for execution in standby
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pi);
     }
 
 

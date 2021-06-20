@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -63,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
          * Saves height and weight.
          * Sets height group a our b.
          */
-        take = findViewById(R.id.bt_take);
+        take = findViewById(R.id.bt_ok);
         take.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

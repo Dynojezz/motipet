@@ -7,16 +7,16 @@
     <!-- Move -->
 
     <scale android:fromXScale="1.0" android:fromYScale="1.0"
-        android:toXScale="1.00" android:toYScale="0.95"
-        android:duration="4500" android:fillBefore="false"
+        android:toXScale="1.00" android:toYScale="0.97"
+        android:duration="4000" android:fillBefore="false"
         android:repeatMode="reverse"
         android:repeatCount="infinite"/>
 
     <translate
-        android:duration="4500"
+        android:duration="4000"
         android:fillAfter="true"
-        android:fromYDelta="-1.5%p"
-        android:toYDelta="1.5%p"
+        android:fromYDelta="-2%p"
+        android:toYDelta="2%p"
         android:repeatMode="reverse"
         android:repeatCount="infinite"
         />
