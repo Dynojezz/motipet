@@ -83,6 +83,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:adjustViewBounds="true"
+        android:alpha="0.5"
         android:background="#00000000"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/iv_notepad"

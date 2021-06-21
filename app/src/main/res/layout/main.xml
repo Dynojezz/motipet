@@ -101,7 +101,7 @@
         android:text="983"
         android:textColor="@color/darkgrey"
         android:textSize="@dimen/large"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_flame"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_calories"
         app:layout_constraintEnd_toEndOf="@+id/tv_distance"
         tools:text="0" />
 
@@ -123,13 +123,13 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_flame"
+        app:layout_constraintBottom_toTopOf="@+id/iv_calories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_steps"
         app:srcCompat="@drawable/distance" />
 
     <ImageView
-        android:id="@+id/iv_flame"
+        android:id="@+id/iv_calories"
         android:layout_width="36dp"
         android:layout_height="42dp"
         android:layout_marginTop="175dp"

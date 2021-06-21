@@ -3,14 +3,19 @@ package de.dynomedia.motipet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
@@ -18,9 +23,12 @@ import java.text.DecimalFormat;
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton arrow, info, x;
+    TextView tv_height, tv_weight;
     EditText et_height, et_weight;
     Button take;
+    Switch sw1;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,68 @@ public class SettingsActivity extends AppCompatActivity {
         et_height.setText(myPrefs.getString("height", "173"));
         et_weight = findViewById(R.id.et_weight);
         et_weight.setText(myPrefs.getString("weight", "80.2"));
+        tv_height = findViewById(R.id.tv_height);
+        tv_weight = findViewById(R.id.tv_weight);
+
+        sw1 = findViewById(R.id.sw1);
+        if(myPrefs.getBoolean("calcCalories", true)) {
+            sw1.setChecked(true);
+            et_height.setAlpha(1);
+            tv_height.setAlpha(1);
+            et_height.setFocusable(View.FOCUSABLE);
+            et_height.setClickable(true);
+            et_height.setCursorVisible(true);
+            et_weight.setAlpha(1);
+            tv_weight.setAlpha(1);
+            et_weight.setFocusable(View.FOCUSABLE);
+            et_weight.setClickable(true);
+            et_weight.setCursorVisible(true);
+        } else {
+            sw1.setChecked(false);
+            et_height.setAlpha(0.5f);
+            tv_height.setAlpha(0.5f);
+            et_height.setFocusable(View.NOT_FOCUSABLE);
+            et_height.setClickable(false);
+            et_height.setCursorVisible(false);
+            et_weight.setAlpha(0.5f);
+            tv_weight.setAlpha(0.5f);
+            et_weight.setFocusable(View.NOT_FOCUSABLE);
+            et_weight.setClickable(false);
+            et_weight.setCursorVisible(false);
+        }
+
+        sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+               if(sw1.isChecked()) {
+                   myPrefs.edit().putBoolean("calcCalories", true).apply();
+                   sw1.setChecked(true);
+                   et_height.setAlpha(1);
+                   tv_height.setAlpha(1);
+                   et_height.setFocusable(View.FOCUSABLE);
+                   et_height.setClickable(true);
+                   et_height.setCursorVisible(true);
+                   et_weight.setAlpha(1);
+                   tv_weight.setAlpha(1);
+                   et_weight.setFocusable(View.FOCUSABLE);
+                   et_weight.setClickable(true);
+                   et_weight.setCursorVisible(true);
+               } else {
+                   myPrefs.edit().putBoolean("calcCalories", false).apply();
+                   sw1.setChecked(false);
+                   et_height.setAlpha(0.5f);
+                   tv_height.setAlpha(0.5f);
+                   et_height.setFocusable(View.NOT_FOCUSABLE);
+                   et_height.setClickable(false);
+                   et_height.setCursorVisible(false);
+                   et_weight.setAlpha(0.5f);
+                   tv_weight.setAlpha(0.5f);
+                   et_weight.setFocusable(View.NOT_FOCUSABLE);
+                   et_weight.setClickable(false);
+                   et_weight.setCursorVisible(false);
+               }
+           }
+        });
 
         /**
          * Saves height and weight.

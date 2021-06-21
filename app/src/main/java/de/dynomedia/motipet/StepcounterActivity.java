@@ -36,7 +36,7 @@ import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView iv_moti, sync, iv_progressbar, iv_note;
+    private ImageView iv_moti, sync, iv_progressbar, iv_note, iv_distance, iv_calories;
     private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st, tv_info;
     private Button bt_ok;
     private ImageButton ib_journal;
@@ -49,6 +49,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     String name;
     int moti_steps, lv, st, current_steps;
+    boolean playMusic = false;
 
     // Animation
     Animation animUpDown;
@@ -58,6 +59,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //start service and play music
+        startService(new Intent(StepcounterActivity.this, SoundService.class));
 
         // Get the shared preferences
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -82,6 +86,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         ib_journal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playMusic = true;
                 startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));
             }
         });
@@ -91,7 +96,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         tv_day = findViewById(R.id.tv_day);
         tv_steps = findViewById(R.id.tv_steps);
         tv_distance = findViewById(R.id.tv_distance);
+        iv_distance = findViewById(R.id.iv_distance);
         tv_calories = findViewById(R.id.tv_calories);
+        iv_calories = findViewById(R.id.iv_calories);
         iv_moti = findViewById(R.id.iv_moti);
         tv_name = findViewById(R.id.tv_name);
         tv_lv = findViewById(R.id.tv_lv);
@@ -235,9 +242,16 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // put steps into TextView
         this.tv_steps.setText(String.format(Locale.GERMANY, "%d", _steps));
         // put distance into TextView
-        this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
-        // put distance into TextView
-        this.tv_calories.setText(SettingsActivity.getCalories(this, _steps));
+        if(myPrefs.getBoolean("calcCalories", true)) {
+            this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
+            // put distance into TextView
+            this.tv_calories.setText(SettingsActivity.getCalories(this, _steps));
+        } else {
+            this.tv_distance.setVisibility(View.INVISIBLE);
+            this.iv_distance.setVisibility(View.INVISIBLE);
+            this.tv_calories.setVisibility(View.INVISIBLE);
+            this.iv_calories.setVisibility(View.INVISIBLE);
+        }
 
         updateProgressBar();
     }
@@ -261,6 +275,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     @Override
     protected void onResume() {
+        playMusic = false;
         super.onResume();
         // load values to the view
         updateView();
@@ -543,4 +558,19 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        //stop service and stop music
+        stopService(new Intent(StepcounterActivity.this, SoundService.class));
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        //stop service and stop music
+        if (! playMusic) {
+            stopService(new Intent(StepcounterActivity.this, SoundService.class));
+        }
+        super.onPause();
+    }
 }
