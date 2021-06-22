@@ -31,7 +31,7 @@ import java.util.Locale;
 public class StepService extends Service implements SensorEventListener {
 
     //creating a mediaplayer object
-    private MediaPlayer player;
+    //private MediaPlayer player;
 
     private SensorManager sm;
     private Sensor s;
@@ -46,24 +46,21 @@ public class StepService extends Service implements SensorEventListener {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // ONLY TO TEST IF ALARM IS FIRED
         //getting systems default ringtone
-        player = MediaPlayer.create(this,
-                Settings.System.DEFAULT_RINGTONE_URI);
+        //player = MediaPlayer.create(this,
+        //        Settings.System.DEFAULT_RINGTONE_URI);
         //setting loop play to true
         //this will make the ringtone continuously playing
-        player.setLooping(true);
+        //player.setLooping(true);
 
         //staring the player
-        player.start();
-
-        //we have some options for service
-        //start sticky means service will be explicity started and stopped
-
+        //player.start();
 
         // setup of the step counter
         checkIn();
 
-
+        //start sticky means service will be explicity started and stopped
         return START_STICKY;
     }
 
@@ -91,8 +88,10 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         //stopping the player when service is destroyed
-        player.stop();
+        //player.stop();
+
         //stopping the step listener when service is destroyed
         sm.unregisterListener((SensorEventListener) this);
         //close databese when service is destroyed
@@ -132,13 +131,14 @@ public class StepService extends Service implements SensorEventListener {
 
         int motiID = myPrefs.getInt("motiID", 1);
 
-        /**check, if alarm is already fired*/
+        /**check if alarm is already fired*/
         SimpleDateFormat myFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
         String date = myFormatter.format(new Date());
         Cursor myCursor = motiLog.rawQuery("SELECT date FROM day WHERE motiID = '1'", null);    // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         myCursor.moveToLast();
 
-       if (myCursor.getString(0).equals(date)) {
+        /**check if date is already in db*/
+        if (myCursor.getString(0).equals(date)) {
 
        } else {
            int new_dayNR = myPrefs.getInt("dayNR", 0) + 1;

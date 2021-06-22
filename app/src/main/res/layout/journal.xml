@@ -125,7 +125,7 @@
         app:srcCompat="@drawable/tipps" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/iv_blueline_journal"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:rotation="2"
@@ -173,7 +173,7 @@
         app:layout_constraintStart_toStartOf="@+id/tv_quote" />
 
     <ImageView
-        android:id="@+id/iv_line_eval"
+        android:id="@+id/iv_line_journal"
         android:layout_width="160dp"
         android:layout_height="140dp"
         app:layout_constraintEnd_toEndOf="@+id/iv_notepad"

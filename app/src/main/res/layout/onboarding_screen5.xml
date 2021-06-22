@@ -65,13 +65,13 @@
         android:adjustViewBounds="true"
         android:background="#00000000"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_dots"
         app:layout_constraintStart_toStartOf="@+id/iv_paper"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/iv_dots"
         app:srcCompat="@drawable/arrow" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_dots"
         android:layout_width="@dimen/dots_w"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bt_otions"

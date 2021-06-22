@@ -77,7 +77,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             return;
         }
         // Set onboarding_complete to true; REMOVE WHEN READY CODED!!!!!
-        // myPrefs.edit().putBoolean("onboarding_complete",false).apply();
+        //myPrefs.edit().putBoolean("onboarding_complete",false).apply();
 
         setContentView(R.layout.main);
 

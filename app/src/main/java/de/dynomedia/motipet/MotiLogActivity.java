@@ -38,7 +38,7 @@ public class MotiLogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JournalActivity.setAniMode("noAni");
-                startActivity(new Intent(MotiLogActivity.this, EvaluationActivity.class));
+                startActivity(new Intent(MotiLogActivity.this, JournalActivity.class));
                 finish();
             }
         });

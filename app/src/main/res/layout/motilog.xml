@@ -85,7 +85,7 @@
         app:srcCompat="@drawable/arrow" />
 
     <ImageView
-        android:id="@+id/iv_line_eval"
+        android:id="@+id/iv_line_journal"
         android:layout_width="239dp"
         android:layout_height="245dp"
         android:layout_marginStart="20dp"
@@ -119,9 +119,9 @@
         android:textColor="@color/darkgrey"
         android:textSize="@dimen/xlarge"
         app:layout_constraintBottom_toTopOf="@+id/tv_lv"
-        app:layout_constraintEnd_toEndOf="@+id/iv_line_eval"
+        app:layout_constraintEnd_toEndOf="@+id/iv_line_journal"
         app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/iv_line_eval"
+        app:layout_constraintStart_toStartOf="@+id/iv_line_journal"
         app:layout_constraintTop_toTopOf="@+id/tv_headline" />
 
     <Button

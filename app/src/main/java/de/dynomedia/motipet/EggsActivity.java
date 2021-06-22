@@ -201,45 +201,19 @@ public class EggsActivity extends AppCompatActivity {
                     23, 59, 0);
         }
         setAlarm(calendar.getTimeInMillis());
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        }
+        setAlarm(calendar.getTimeInMillis());
+        setAlarm(calendar.getTimeInMillis());
         setAlarm(calendar.getTimeInMillis());
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
+                    23, 59, 50);
         } else {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
+                    23, 59, 50);
         }
         setAlarm(calendar.getTimeInMillis());
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        }
         setAlarm(calendar.getTimeInMillis());
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        }
         setAlarm(calendar.getTimeInMillis());
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        }
         setAlarm(calendar.getTimeInMillis());
 
 
