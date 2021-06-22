@@ -47,6 +47,11 @@ public class OnboardingFragment1 extends AppCompatActivity {
 
     }
     float x1, y1, x2, y2;
+    /**
+     * Makes the view swipeable
+     * @param touchevent The noticed touch event
+     * @return false
+     */
     public boolean onTouchEvent(MotionEvent touchevent) {
         switch (touchevent.getAction()) {
             case MotionEvent.ACTION_DOWN:

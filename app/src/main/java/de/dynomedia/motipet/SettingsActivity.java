@@ -99,6 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
             sw1.setAlpha(0.5f);
             tv_calories.setAlpha(0.5f);
         }
+
         bt2.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -212,10 +213,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param context
-     * @param steps
-     * @return
+     * Returns the calculated distance in km from the given steps.
+     * @param context The context.
+     * @param steps Step value
+     * @return Walked distance in km
      */
     protected static String getDistance(Context context, int steps) {
         SharedPreferences myPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -237,10 +238,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
     /**
-     *
-     * @param context
-     * @param steps
-     * @return
+     * Returns the calculated calories in kcal from the given steps.
+     * @param context The context.
+     * @param steps Step value
+     * @return Burned calories in kcal
      */
     protected static String getCalories(Context context, int steps) {
         SharedPreferences myPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);

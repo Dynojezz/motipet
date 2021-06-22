@@ -545,6 +545,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     }
 
+    /**
+     * Sets the Moti Name at Lv 1
+     */
     private void setName() {
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         if(myPrefs.getBoolean("set_name",true)) {
@@ -590,6 +593,10 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
     }
 
+    /**
+     * Sets the background according to the daytime
+     * @param hour Current hour
+     */
     private void setBackground(int hour) {
         if(hour >= 4 && hour <= 9) {
             iv_background.setImageResource(getResources().getIdentifier("bg_morning","drawable",getPackageName()));

@@ -95,6 +95,9 @@ public class OnboardingActivity extends FragmentActivity {
         });
     }
 
+    /**
+     * Finished the onboarding tour.
+     */
     private void finishOnboarding() {
         // Get the shared preferences
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);

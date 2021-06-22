@@ -8,8 +8,8 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
     /**
      * Sets SharedPrefs to 0 (equal to step counter value after reboot)
-     * @param context
-     * @param intent
+     * @param context the context
+     * @param intent the intent
      */
     @Override
     public void onReceive(Context context, Intent intent) {

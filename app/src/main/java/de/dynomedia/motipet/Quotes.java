@@ -2,6 +2,11 @@ package de.dynomedia.motipet;
 
 public class Quotes {
 
+    /**
+     * Returns the quote from the list.
+     * @param quoteNumber List-Number of the quote
+     * @return Quote
+     */
     protected static String getQuote(int quoteNumber) {
         String [ ] quoteList = new String[75];
         quoteList[0] = "Die Menschen, die verrückt genug sind, zu glauben, sie könnten die Welt ändern, sind diejenigen, die es tun. Steve Jobs";

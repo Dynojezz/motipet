@@ -70,6 +70,7 @@ public class Eval_MyOVActivity extends AppCompatActivity {
         setFitnessValues();
         setAdapter();
     }
+
     private void setAdapter() {
         RecyclerAdapter adapter = new RecyclerAdapter(resultList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);

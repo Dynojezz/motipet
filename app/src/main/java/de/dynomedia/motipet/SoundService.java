@@ -13,6 +13,7 @@ public class SoundService extends Service {
         return null;
     }
 
+    //in order to be able to add music at some point
     public void onCreate() {
         player = MediaPlayer.create(this, R.raw.underwater_exploration); //select music file
         player.setLooping(true); //set looping

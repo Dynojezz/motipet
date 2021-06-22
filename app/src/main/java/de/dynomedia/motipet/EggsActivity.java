@@ -8,14 +8,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -113,6 +109,10 @@ public class EggsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the db
+     * @param motiIndicator The Pattern of the chosen moti
+     */
     private void pushToMotiLog(String motiIndicator) {
         // get the shared preferences
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -159,9 +159,9 @@ public class EggsActivity extends AppCompatActivity {
 
 
     /**
-     *
-     * @param touchevent
-     * @return
+     * Makes the view swipeable
+     * @param touchevent The noticed touch event
+     * @return false
      */
     public boolean onTouchEvent(MotionEvent touchevent) {
         switch (touchevent.getAction()) {
@@ -187,11 +187,11 @@ public class EggsActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Finished the onboarding tour.
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void finishOnboarding() {
-        // set a time and initialize an alarm with that time
+        // multiple alarms to get save, that the alarm comes through
         Calendar calendar = Calendar.getInstance();
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
@@ -243,7 +243,7 @@ public class EggsActivity extends AppCompatActivity {
         setAlarm(calendar.getTimeInMillis());
 
 
-        Log.d("---------------> INFO", "Alarm is set at 23:59");
+        //Log.d("---------------> INFO", "Alarm is set at 23:59");
 
         // get the shared preferences
         SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);

@@ -14,6 +14,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     private ArrayList<FitnessValue> myValueList;
 
+    /**
+     * An Object of this class represents a recycler adapter for the given list.
+     * @param currentValueList
+     */
     public RecyclerAdapter(ArrayList<FitnessValue> currentValueList) {
         this.myValueList = currentValueList;
     }

@@ -14,8 +14,6 @@ import java.util.Calendar;
  * This class stores the tracked steps each day at 0:00.
  * We need a Broadcast Receiver to fire the alarm when our app is not running.
  */
-
-//class extending the Broadcast Receiver
 public class StepAlarm extends BroadcastReceiver {
 
     private boolean stepsDetected = false;
