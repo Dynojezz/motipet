@@ -50,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SettingsActivity.this, ManualActivity.class));
+                finish();
             }
         });
 
@@ -63,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Setup EditTexts
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
-        et_height = findViewById(R.id.et_name);
+        et_height = findViewById(R.id.et_tipps);
         et_height.setText(myPrefs.getString("height", "173"));
         et_weight = findViewById(R.id.et_weight);
         et_weight.setText(myPrefs.getString("weight", "80.2"));

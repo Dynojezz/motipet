@@ -46,6 +46,7 @@ public class EvaluationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EvaluationActivity.this, ManualActivity.class));
+                finish();
             }
         });
 
@@ -66,6 +67,7 @@ public class EvaluationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EvaluationActivity.this, MotiLogActivity.class));
+                finish();
             }
         });
 
@@ -74,6 +76,7 @@ public class EvaluationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EvaluationActivity.this, Eval_MyOVActivity.class));
+                finish();
             }
         });
 

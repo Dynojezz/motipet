@@ -59,6 +59,7 @@ public class JournalActivity extends AppCompatActivity {
                 setTheme(R.style.Theme_MotiPet_NewPage);
                 startActivity(new Intent(JournalActivity.this, SettingsActivity.class));
                 Handler handler = new Handler();
+                finish();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -110,7 +111,15 @@ public class JournalActivity extends AppCompatActivity {
         tipps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setTheme(R.style.Theme_MotiPet_NewPage);
+                startActivity(new Intent(JournalActivity.this, TippsActivity.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 70);
             }
         });
 

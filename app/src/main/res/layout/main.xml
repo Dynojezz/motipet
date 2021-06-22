@@ -278,7 +278,7 @@
         tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/et_name"
+        android:id="@+id/et_tipps"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

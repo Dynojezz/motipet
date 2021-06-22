@@ -104,7 +104,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         tv_lv = findViewById(R.id.tv_lv);
         tv_st = findViewById(R.id.tv_st);
         iv_progressbar = findViewById(R.id.iv_progressbar);
-        et_name = findViewById(R.id.et_name);
+        et_name = findViewById(R.id.et_tipps);
         iv_background = findViewById(R.id.iv_background);
         iv_progressbar_white = findViewById(R.id.iv_progressbar_white);
 
@@ -553,7 +553,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             tv_info = findViewById(R.id.tv_info);
             tv_info.setText("Herzlichen Glückwunsch, dein Moti ist geschlüpft! Wie möchtest du es nennen?");
             tv_info.setVisibility(View.VISIBLE);
-            et_name.findViewById(R.id.et_name);
+            et_name.findViewById(R.id.et_tipps);
             et_name.setVisibility(View.VISIBLE);
             bt_ok = findViewById(R.id.bt_otions);
             bt_ok.setVisibility(View.VISIBLE);

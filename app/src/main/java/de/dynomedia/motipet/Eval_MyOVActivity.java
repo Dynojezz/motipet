@@ -1,11 +1,13 @@
 package de.dynomedia.motipet;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,7 +18,8 @@ import java.util.ArrayList;
 
 public class Eval_MyOVActivity extends AppCompatActivity {
 
-    ImageButton x;
+    ImageButton arrow, x;
+    ImageView info;
 
     private ArrayList<FitnessValue> resultList;
     private RecyclerView recyclerView;
@@ -34,6 +37,25 @@ public class Eval_MyOVActivity extends AppCompatActivity {
 
         getWindow().setLayout((int)(width*.99), (int)(height*.99));
 
+        arrow = findViewById(R.id.ib_arrow);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JournalActivity.setAniMode("noAni");
+                startActivity(new Intent(Eval_MyOVActivity.this, EvaluationActivity.class));
+                finish();
+            }
+        });
+
+        info = findViewById(R.id.iv_info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Eval_MyOVActivity.this, ManualActivity.class));
+                finish();
+            }
+        });
+
         x = findViewById(R.id.ib_x);
         x.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +63,7 @@ public class Eval_MyOVActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         recyclerView = findViewById(R.id.rv_results);
 
         resultList = new ArrayList<>();
@@ -56,9 +79,9 @@ public class Eval_MyOVActivity extends AppCompatActivity {
     }
 
     private void setFitnessValues() {
-        resultList.add(new FitnessValue("x", "123456", "3,5", "5000"));
-        resultList.add(new FitnessValue("y", "1000", "1", "10"));
-        resultList.add(new FitnessValue("z", "3456", "1,2", "3500"));
+        //resultList.add(new FitnessValue("x", "123456", "3,5", "5000"));
+        //resultList.add(new FitnessValue("y", "1000", "1", "10"));
+        //resultList.add(new FitnessValue("z", "3456", "1,2", "3500"));
 
         String day, steps, distance, calories;
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);

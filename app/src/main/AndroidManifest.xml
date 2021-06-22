@@ -70,7 +70,11 @@
         </activity>
 
         <activity android:name=".MotiLogActivity"
-            android:theme="@style/Theme.MotiPet.NewPage">>
+            android:theme="@style/Theme.MotiPet.NewPage">
+        </activity>
+
+        <activity android:name=".TippsActivity"
+            android:theme="@style/Theme.MotiPet.NewPage">
         </activity>
 
         <!-- registering the receiver -->
