@@ -38,6 +38,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg1 = findViewById(R.id.iv_egg1);
         iv_egg1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 // set egg type
@@ -53,6 +54,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg2 = findViewById(R.id.iv_egg2);
         iv_egg2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 myPrefs.edit().putInt("pattern",2).apply();
@@ -64,6 +66,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg3 = findViewById(R.id.iv_egg3);
         iv_egg3.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 myPrefs.edit().putInt("pattern", 3).apply();
@@ -75,6 +78,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg4 = findViewById(R.id.iv_egg4);
         iv_egg4.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 myPrefs.edit().putInt("pattern", 4).apply();
@@ -86,6 +90,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg5 = findViewById(R.id.iv_egg5);
         iv_egg5.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 myPrefs.edit().putInt("pattern", 5).apply();
@@ -97,6 +102,7 @@ public class EggsActivity extends AppCompatActivity {
 
         iv_egg6 = findViewById(R.id.iv_egg6);
         iv_egg6.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 myPrefs.edit().putInt("pattern", 6).apply();
@@ -195,6 +201,48 @@ public class EggsActivity extends AppCompatActivity {
                     23, 59, 0);
         }
         setAlarm(calendar.getTimeInMillis());
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 59, 0);
+        }
+        setAlarm(calendar.getTimeInMillis());
+
+
         Log.d("---------------> INFO", "Alarm is set at 23:59");
 
         // get the shared preferences

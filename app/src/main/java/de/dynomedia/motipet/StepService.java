@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -130,41 +131,56 @@ public class StepService extends Service implements SensorEventListener {
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null); //null == standard cursor for databases
 
         int motiID = myPrefs.getInt("motiID", 1);
-        int new_dayNR = myPrefs.getInt("dayNR", 0) + 1;
-        myPrefs.edit().putInt("dayNR", new_dayNR).apply();
-        int new_dailysteps = _dailySteps;
-        String new_dailydistance = SettingsActivity.getDistance(this, _dailySteps);
-        String new_dailycalories = SettingsActivity.getCalories(this, _dailySteps);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
-        String new_date = formatter.format(new Date());
-        int weekday = new Date().getDay();
 
-        motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
-                "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
+        /**check, if alarm is already fired*/
+        SimpleDateFormat myFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
+        String date = myFormatter.format(new Date());
+        Cursor myCursor = motiLog.rawQuery("SELECT date FROM day WHERE motiID = '1'", null);    // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        myCursor.moveToLast();
 
-        /** update moti steps and put into shared prefs and db*/
-        int motiSteps = myPrefs.getInt("motiSteps", 0);
-        motiSteps = motiSteps + new_dailysteps;
-        myPrefs.edit().putInt("motiSteps", motiSteps).apply();
-        motiLog.execSQL("UPDATE moti SET steps ='"+motiSteps+"' WHERE motiID = '1'");   // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       if (myCursor.getString(0).equals(date)) {
+
+       } else {
+           int new_dayNR = myPrefs.getInt("dayNR", 0) + 1;
+           myPrefs.edit().putInt("dayNR", new_dayNR).apply();
+           int new_dailysteps = _dailySteps;
+           String new_dailydistance = SettingsActivity.getDistance(this, _dailySteps);
+           String new_dailycalories = SettingsActivity.getCalories(this, _dailySteps);
+           SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
+           String new_date = formatter.format(new Date());
+           int weekday = new Date().getDay();
+
+           motiLog.execSQL("INSERT INTO day (motiID, dayNR, dailysteps, dailydistance, dailycalories, date, weekday) " +
+                   "VALUES ('"+motiID+"', '"+new_dayNR+"', '"+new_dailysteps+"', '"+new_dailydistance+"', '"+new_dailycalories+"', '"+new_date+"', '"+weekday+"')");
+
+           /** update moti steps and put into shared prefs and db*/
+           int motiSteps = myPrefs.getInt("motiSteps", 0);
+           motiSteps = motiSteps + new_dailysteps;
+           myPrefs.edit().putInt("motiSteps", motiSteps).apply();
+           motiLog.execSQL("UPDATE moti SET steps ='"+motiSteps+"' WHERE motiID = '1'");   // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
-        // set a time and initialize an alarm with that time
-        Calendar calendar = Calendar.getInstance();
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        } else {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                    23, 59, 0);
-        }
-        setAlarm(calendar.getTimeInMillis());
-        Toast.makeText(StepService.this, "Alarm is set at 23:59", Toast.LENGTH_SHORT).show();
+           // set a time and initialize an alarm with that time
+           Calendar calendar = Calendar.getInstance();
+           if (android.os.Build.VERSION.SDK_INT >= 23) {
+               calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                       23, 59, 0);
+           } else {
+               calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                       23, 59, 0);
+           }
+           setAlarm(calendar.getTimeInMillis());
+           Toast.makeText(StepService.this, "Alarm is set at 23:59", Toast.LENGTH_SHORT).show();
 
-        // finish service
-        onDestroy();
-        motiLog.close();
+           // finish service
+           onDestroy();
+           motiLog.close();
+       }
+
+        myCursor.close();
+
+
     }
 
     /**
