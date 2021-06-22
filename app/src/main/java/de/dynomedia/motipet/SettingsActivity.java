@@ -1,5 +1,6 @@
 package de.dynomedia.motipet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,9 +24,9 @@ import java.text.DecimalFormat;
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton arrow, info, x;
-    TextView tv_height, tv_weight;
+    TextView tv_height, tv_weight, tv_conn, tv_calories;
     EditText et_height, et_weight;
-    Button take;
+    Button take, bt2;
     Switch sw1;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -68,32 +69,74 @@ public class SettingsActivity extends AppCompatActivity {
         et_weight.setText(myPrefs.getString("weight", "80.2"));
         tv_height = findViewById(R.id.tv_height);
         tv_weight = findViewById(R.id.tv_weight);
-
+        tv_calories = findViewById(R.id.tv_calories);
         sw1 = findViewById(R.id.sw1);
-        if(myPrefs.getBoolean("calcCalories", true)) {
+
+        // Setup Button; set color
+        bt2 = findViewById(R.id.bt2);
+        tv_conn = findViewById(R.id.tv_conn);
+        if(myPrefs.getBoolean("countSteps", true)) {
+            bt2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
+            bt2.setBackgroundColor(bt2.getContext().getResources().getColor(R.color.blue));
+            bt2.setTextColor(bt2.getContext().getResources().getColor(R.color.white));
+            bt2.setText("Schrittzähler trennen");
+            enableFields();
+            tv_conn.setVisibility(View.VISIBLE);
+            sw1.setFocusableInTouchMode(true);
+            sw1.setClickable(true);
+            sw1.setAlpha(1);
+            tv_calories.setAlpha(1);
+        } else {
+            bt2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone_dark, 0, 0, 0);
+            bt2.setBackgroundColor(bt2.getContext().getResources().getColor(R.color.lightgreen));
+            bt2.setTextColor(bt2.getContext().getResources().getColor(R.color.darkgrey));
+            bt2.setText("Schrittzähler verbinden");
+            disableFields();
+            tv_conn.setVisibility(View.INVISIBLE);
+            sw1.setFocusableInTouchMode(false);
+            sw1.setClickable(false);
+            sw1.setAlpha(0.5f);
+            tv_calories.setAlpha(0.5f);
+        }
+        bt2.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View v) {
+                if(myPrefs.getBoolean("countSteps", true)) {
+                    bt2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone_dark, 0, 0, 0);
+                    bt2.setBackgroundColor(bt2.getContext().getResources().getColor(R.color.lightgreen));
+                    bt2.setTextColor(bt2.getContext().getResources().getColor(R.color.darkgrey));
+                    bt2.setText("Schrittzähler verbinden");
+                    tv_conn.setVisibility(View.INVISIBLE);
+                    disableFields();
+                    myPrefs.edit().putBoolean("countSteps", false).apply();
+                    sw1.setFocusableInTouchMode(false);
+                    sw1.setClickable(false);
+                    sw1.setAlpha(0.5f);
+                    tv_calories.setAlpha(0.5f);
+                } else {
+                    bt2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
+                    bt2.setBackgroundColor(bt2.getContext().getResources().getColor(R.color.blue));
+                    bt2.setTextColor(bt2.getContext().getResources().getColor(R.color.white));
+                    bt2.setText("Schrittzähler trennen");
+                    tv_conn.setVisibility(View.VISIBLE);
+                    enableFields();
+                    myPrefs.edit().putBoolean("countSteps", true).apply();
+                    sw1.setFocusableInTouchMode(true);
+                    sw1.setClickable(false);
+                    sw1.setAlpha(1);
+                    tv_calories.setAlpha(1);
+                }
+            }
+        });
+
+        // Setup Switch and Fields
+        if(myPrefs.getBoolean("calcCalories", true) && myPrefs.getBoolean("countSteps", true)) {
             sw1.setChecked(true);
-            et_height.setAlpha(1);
-            tv_height.setAlpha(1);
-            et_height.setFocusable(View.FOCUSABLE);
-            et_height.setClickable(true);
-            et_height.setCursorVisible(true);
-            et_weight.setAlpha(1);
-            tv_weight.setAlpha(1);
-            et_weight.setFocusable(View.FOCUSABLE);
-            et_weight.setClickable(true);
-            et_weight.setCursorVisible(true);
+            enableFields();
         } else {
             sw1.setChecked(false);
-            et_height.setAlpha(0.5f);
-            tv_height.setAlpha(0.5f);
-            et_height.setFocusable(View.NOT_FOCUSABLE);
-            et_height.setClickable(false);
-            et_height.setCursorVisible(false);
-            et_weight.setAlpha(0.5f);
-            tv_weight.setAlpha(0.5f);
-            et_weight.setFocusable(View.NOT_FOCUSABLE);
-            et_weight.setClickable(false);
-            et_weight.setCursorVisible(false);
+            disableFields();
         }
 
         sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -102,29 +145,11 @@ public class SettingsActivity extends AppCompatActivity {
                if(sw1.isChecked()) {
                    myPrefs.edit().putBoolean("calcCalories", true).apply();
                    sw1.setChecked(true);
-                   et_height.setAlpha(1);
-                   tv_height.setAlpha(1);
-                   et_height.setFocusable(View.FOCUSABLE);
-                   et_height.setClickable(true);
-                   et_height.setCursorVisible(true);
-                   et_weight.setAlpha(1);
-                   tv_weight.setAlpha(1);
-                   et_weight.setFocusable(View.FOCUSABLE);
-                   et_weight.setClickable(true);
-                   et_weight.setCursorVisible(true);
+                   enableFields();
                } else {
                    myPrefs.edit().putBoolean("calcCalories", false).apply();
                    sw1.setChecked(false);
-                   et_height.setAlpha(0.5f);
-                   tv_height.setAlpha(0.5f);
-                   et_height.setFocusable(View.NOT_FOCUSABLE);
-                   et_height.setClickable(false);
-                   et_height.setCursorVisible(false);
-                   et_weight.setAlpha(0.5f);
-                   tv_weight.setAlpha(0.5f);
-                   et_weight.setFocusable(View.NOT_FOCUSABLE);
-                   et_weight.setClickable(false);
-                   et_weight.setCursorVisible(false);
+                   disableFields();
                }
            }
         });
@@ -133,7 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
          * Saves height and weight.
          * Sets height group a our b.
          */
-        take = findViewById(R.id.bt_ok);
+        take = findViewById(R.id.bt_otions);
         take.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +182,32 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(SettingsActivity.this,"Werte aktualisiert", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void enableFields() {
+        et_height.setAlpha(1);
+        tv_height.setAlpha(1);
+        et_height.setFocusableInTouchMode(true);
+        et_height.setClickable(true);
+        et_height.setCursorVisible(true);
+        et_weight.setAlpha(1);
+        tv_weight.setAlpha(1);
+        et_weight.setFocusableInTouchMode(true);
+        et_weight.setClickable(true);
+        et_weight.setCursorVisible(true);
+    }
+
+    private void disableFields() {
+        et_height.setAlpha(0.5f);
+        tv_height.setAlpha(0.5f);
+        et_height.setFocusableInTouchMode(false);
+        et_height.setClickable(false);
+        et_height.setCursorVisible(false);
+        et_weight.setAlpha(0.5f);
+        tv_weight.setAlpha(0.5f);
+        et_weight.setFocusableInTouchMode(false);
+        et_weight.setClickable(false);
+        et_weight.setCursorVisible(false);
     }
 
     /**

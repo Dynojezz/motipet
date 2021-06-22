@@ -1,18 +1,22 @@
 package de.dynomedia.motipet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EvaluationActivity extends AppCompatActivity {
 
     ImageButton arrow, info, x;
-    Button bt1, bt2, bt3, bt4, bt5;
+    Button bt1, bt2, bt3, bt4, bt5, bt_change;
+    TextView tv_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,18 @@ public class EvaluationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        tv_name = findViewById(R.id.tv_moti_name);
+        SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        tv_name.setText(myPrefs.getString("moti_name", "Moti"));
+
+        bt_change= findViewById(R.id.bt_otions);
+        bt_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EvaluationActivity.this, MotiLogActivity.class));
             }
         });
 

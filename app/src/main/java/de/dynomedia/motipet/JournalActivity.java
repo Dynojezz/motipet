@@ -118,16 +118,18 @@ public class JournalActivity extends AppCompatActivity {
         motilog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.motilog);
-                x = findViewById(R.id.ib_x);
-                x.setOnClickListener(new View.OnClickListener() {
+                setTheme(R.style.Theme_MotiPet_NewPage);
+                startActivity(new Intent(JournalActivity.this, MotiLogActivity.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onClick(View v) {
+                    public void run() {
                         finish();
                     }
-                });
+                }, 70);
             }
         });
+
         tv_quote = findViewById(R.id.tv_quote);
 
         /** Set new quote */

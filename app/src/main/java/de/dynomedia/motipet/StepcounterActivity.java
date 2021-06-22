@@ -2,13 +2,12 @@ package de.dynomedia.motipet;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,12 +30,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class StepcounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private ImageView iv_moti, sync, iv_progressbar, iv_note, iv_distance, iv_calories;
+    private ImageView iv_moti, sync, iv_progressbar, iv_note, iv_distance, iv_calories, iv_steps, iv_background, iv_progressbar_white;
     private TextView tv_day, tv_steps, tv_distance, tv_calories, tv_name, tv_lv, tv_st, tv_info;
     private Button bt_ok;
     private ImageButton ib_journal;
@@ -49,19 +50,18 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     String name;
     int moti_steps, lv, st, current_steps;
-    boolean playMusic = false;
 
     // Animation
     Animation animUpDown;
+
+    SimpleDateFormat formatter = new SimpleDateFormat("HH", Locale.GERMANY);
+    int dayTime = Integer.parseInt(formatter.format(new Date()));
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //start service and play music
-        startService(new Intent(StepcounterActivity.this, SoundService.class));
 
         // Get the shared preferences
         SharedPreferences myPrefs =  getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -86,7 +86,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         ib_journal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playMusic = true;
                 startActivity(new Intent(StepcounterActivity.this, JournalActivity.class));
             }
         });
@@ -95,23 +94,26 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // initializes views
         tv_day = findViewById(R.id.tv_day);
         tv_steps = findViewById(R.id.tv_steps);
+        iv_steps = findViewById(R.id.iv_steps);
         tv_distance = findViewById(R.id.tv_distance);
         iv_distance = findViewById(R.id.iv_distance);
         tv_calories = findViewById(R.id.tv_calories);
         iv_calories = findViewById(R.id.iv_calories);
         iv_moti = findViewById(R.id.iv_moti);
-        tv_name = findViewById(R.id.tv_name);
+        tv_name = findViewById(R.id.tv_moti_name);
         tv_lv = findViewById(R.id.tv_lv);
         tv_st = findViewById(R.id.tv_st);
         iv_progressbar = findViewById(R.id.iv_progressbar);
         et_name = findViewById(R.id.et_name);
+        iv_background = findViewById(R.id.iv_background);
+        iv_progressbar_white = findViewById(R.id.iv_progressbar_white);
 
         if(myPrefs.getBoolean("info_note",true)) {
             iv_note = findViewById(R.id.iv_note);
             iv_note.setVisibility(View.VISIBLE);
             tv_info = findViewById(R.id.tv_info);
             tv_info.setVisibility(View.VISIBLE);
-            bt_ok = findViewById(R.id.bt_ok);
+            bt_ok = findViewById(R.id.bt_otions);
             bt_ok.setVisibility(View.VISIBLE);
             bt_ok.setOnClickListener(new View.OnClickListener() {
                 int counter = 1;
@@ -155,7 +157,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
         // setup of the step counter
         checkIn();
-
 
     }
 
@@ -211,6 +212,29 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         // close db
         motiLog.close();
         iv_moti.startAnimation(animUpDown);
+
+        if(myPrefs.getBoolean("countSteps", true)) {
+            this.tv_steps.setVisibility(View.VISIBLE);
+            this.iv_steps.setVisibility(View.VISIBLE);
+        } else {
+            this.tv_steps.setVisibility(View.INVISIBLE);
+            this.iv_steps.setVisibility(View.INVISIBLE);
+        }
+
+        if(myPrefs.getBoolean("calcCalories", true) && myPrefs.getBoolean("countSteps", true)) {
+            this.tv_distance.setVisibility(View.VISIBLE);
+            this.iv_distance.setVisibility(View.VISIBLE);
+            this.tv_calories.setVisibility(View.VISIBLE);
+            this.iv_calories.setVisibility(View.VISIBLE);
+        } else {
+            this.tv_distance.setVisibility(View.INVISIBLE);
+            this.iv_distance.setVisibility(View.INVISIBLE);
+            this.tv_calories.setVisibility(View.INVISIBLE);
+            this.iv_calories.setVisibility(View.INVISIBLE);
+        }
+
+        // setup background
+        setBackground(dayTime);
     }
 
 
@@ -239,10 +263,16 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         _steps = _steps - myPrefs.getInt("lastValue", 0);
         current_steps = _steps;
 
-        // put steps into TextView
-        this.tv_steps.setText(String.format(Locale.GERMANY, "%d", _steps));
-        // put distance into TextView
+        if(myPrefs.getBoolean("countSteps", true)) {
+            // put steps into TextView
+            this.tv_steps.setText(String.format(Locale.GERMANY, "%d", _steps));
+        } else {
+            this.tv_steps.setVisibility(View.INVISIBLE);
+            this.iv_steps.setVisibility(View.INVISIBLE);
+        }
+
         if(myPrefs.getBoolean("calcCalories", true)) {
+            // put distance into TextView
             this.tv_distance.setText(SettingsActivity.getDistance(this, _steps));
             // put distance into TextView
             this.tv_calories.setText(SettingsActivity.getCalories(this, _steps));
@@ -254,6 +284,8 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         }
 
         updateProgressBar();
+        // setup background
+        setBackground(dayTime);
     }
 
 
@@ -275,7 +307,6 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
 
     @Override
     protected void onResume() {
-        playMusic = false;
         super.onResume();
         // load values to the view
         updateView();
@@ -294,7 +325,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
         /** Calc Moti Lv from steps*/
 
-        motiLog.execSQL("UPDATE moti SET steps ='1000' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //motiLog.execSQL("UPDATE moti SET steps ='100' WHERE motiID = '1'"); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //SharedPreferences myPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         //myPrefs.edit().putBoolean("set_name", true).apply(); // JUST FOR TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -492,19 +523,19 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             moti_indicator = "adult" + myPrefs.getInt("pattern", 1);
         } else if (lv >= 100) {
             moti_indicator = "teen" + myPrefs.getInt("pattern", 1);
-            iv_moti.setPadding(50,150,180,30);
+            iv_moti.setPadding(50,200,180,90);
         } else if (lv >= 50) {
             moti_indicator = "child" + myPrefs.getInt("pattern", 1);
-            iv_moti.setPadding(100,150,100,30);
+            iv_moti.setPadding(120,150,120,30);
         } else if (lv >= 15) {
             moti_indicator = "toddler" + myPrefs.getInt("pattern", 1);
-            iv_moti.setPadding(200,150,200,30);
+            iv_moti.setPadding(220,150,220,30);
         } else if (lv >= 1) {
             moti_indicator = "baby" + myPrefs.getInt("pattern", 1);
-            iv_moti.setPadding(200,30,200,30);
+            iv_moti.setPadding(240,30,240,30);
         } else if (lv >= 0) {
             moti_indicator = "egg" + myPrefs.getInt("pattern", 1);
-            iv_moti.setPadding(100,30,100,30);
+            iv_moti.setPadding(300,300,300,0);
         }
         iv_moti.setImageResource(getResources().getIdentifier(moti_indicator,"drawable",getPackageName()));
 
@@ -524,7 +555,7 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
             tv_info.setVisibility(View.VISIBLE);
             et_name.findViewById(R.id.et_name);
             et_name.setVisibility(View.VISIBLE);
-            bt_ok = findViewById(R.id.bt_ok);
+            bt_ok = findViewById(R.id.bt_otions);
             bt_ok.setVisibility(View.VISIBLE);
             bt_ok.setOnClickListener(new View.OnClickListener() {
                 int counter = 1;
@@ -532,7 +563,9 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
                 @Override
                 public void onClick(View v) {
                     if (counter == 1) {
+                        myPrefs.edit().putBoolean("set_name", false).apply();
                         moti_name = et_name.getText().toString();
+                        myPrefs.edit().putString("moti_name", moti_name).apply();
                         SQLiteDatabase motiLog = openOrCreateDatabase("motiLog.db", MODE_PRIVATE, null);
                         motiLog.execSQL("UPDATE moti SET name ='"+moti_name+"' WHERE motiID = '1'");    // CHANGE ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         tv_info.setText("Hallo " + moti_name + " :) Schon neugierig, wie dein Moti sich entwickeln wird? Dann heißt es fleißig schritte sammeln!");
@@ -551,26 +584,34 @@ public class StepcounterActivity extends AppCompatActivity implements SensorEven
                         tv_info.setVisibility(View.GONE);
                         bt_ok.setVisibility(View.GONE);
                         iv_note.setVisibility(View.GONE);
-                        myPrefs.edit().putBoolean("set_name", false).apply();
                     }
                 }
             });
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        //stop service and stop music
-        stopService(new Intent(StepcounterActivity.this, SoundService.class));
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        //stop service and stop music
-        if (! playMusic) {
-            stopService(new Intent(StepcounterActivity.this, SoundService.class));
+    private void setBackground(int hour) {
+        if(hour >= 4 && hour <= 9) {
+            iv_background.setImageResource(getResources().getIdentifier("bg_morning","drawable",getPackageName()));
+        } else if (hour <= 15 && hour >= 10) {
+            iv_background.setImageResource(getResources().getIdentifier("bg_day","drawable",getPackageName()));
+        } else if (hour <= 21 && hour >= 16) {
+            iv_background.setImageResource(getResources().getIdentifier("bg_evening","drawable",getPackageName()));
+        } else  {
+            iv_background.setImageResource(getResources().getIdentifier("bg_night","drawable",getPackageName()));
+            ib_journal.setImageResource(getResources().getIdentifier("journal_white","drawable",getPackageName()));
+            iv_steps.setImageResource(getResources().getIdentifier("steps_white","drawable",getPackageName()));
+            iv_distance.setImageResource(getResources().getIdentifier("distance_white","drawable",getPackageName()));
+            iv_calories.setImageResource(getResources().getIdentifier("flame_white","drawable",getPackageName()));
+            iv_progressbar_white.setVisibility(View.VISIBLE);
+            iv_moti.setAlpha(0.95f);
+            tv_day.setTextColor(Color.WHITE);
+            tv_steps.setTextColor(Color.WHITE);
+            tv_distance.setTextColor(Color.WHITE);
+            tv_calories.setTextColor(Color.WHITE);
+            tv_name.setTextColor(Color.WHITE);
+            tv_lv.setTextColor(Color.WHITE);
+            tv_st.setTextColor(Color.WHITE);
         }
-        super.onPause();
     }
 }

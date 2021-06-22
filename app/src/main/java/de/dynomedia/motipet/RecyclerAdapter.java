@@ -26,7 +26,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         public MyViewHolder (final View view) {
             super(view);
-            tv_day = view.findViewById(R.id.tv_eval_day);
+            tv_day = view.findViewById(R.id.tv_moti_day);
             tv_steps = view.findViewById(R.id.tv_eval_steps);
             tv_distance = view.findViewById(R.id.tv_eval_distance);
             tv_calories = view.findViewById(R.id.tv_eval_calories);

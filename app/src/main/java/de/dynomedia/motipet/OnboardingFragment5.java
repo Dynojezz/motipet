@@ -43,7 +43,7 @@ public class OnboardingFragment5 extends AppCompatActivity {
             }
         });
 
-        bt_ok = findViewById(R.id.bt_ok);
+        bt_ok = findViewById(R.id.bt_otions);
         bt_ok.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override

@@ -69,6 +69,10 @@
         <activity android:name=".EggsActivity">
         </activity>
 
+        <activity android:name=".MotiLogActivity"
+            android:theme="@style/Theme.MotiPet.NewPage">>
+        </activity>
+
         <!-- registering the receiver -->
         <receiver
             android:name=".StepAlarm"

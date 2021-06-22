@@ -127,13 +127,13 @@
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:rotation="2"
         app:layout_constraintBottom_toBottomOf="@+id/tv_headline2"
         app:layout_constraintEnd_toEndOf="@+id/tv_headline2"
         app:layout_constraintStart_toStartOf="@+id/tv_headline2"
         app:layout_constraintTop_toTopOf="@+id/tv_headline2"
-        app:layout_constraintVertical_bias="0.47000003"
+        app:layout_constraintVertical_bias="0.45"
         app:srcCompat="@drawable/line_blue" />
 
     <TextView
@@ -173,7 +173,7 @@
         app:layout_constraintStart_toStartOf="@+id/tv_quote" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/iv_line_eval"
         android:layout_width="160dp"
         android:layout_height="140dp"
         app:layout_constraintEnd_toEndOf="@+id/iv_notepad"
